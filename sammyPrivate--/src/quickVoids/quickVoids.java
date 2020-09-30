@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 public class quickVoids {
 
 	public static void main(String[] args) {
+	
 		
 	}
 	
@@ -14,8 +15,11 @@ public class quickVoids {
 	private static void print(String words)	{
 		System.out.println(words);
 	}
-	private static void printi(int words) {
-		System.out.println("" + words + "");
+	private static void printi(int integer) {
+		System.out.println("" + integer + "");
+	}
+	private static void printd(double number)	{
+		System.out.println(number);
 	}
 	private static void printf(String words)	{
 		System.out.print(words);
@@ -30,10 +34,8 @@ public class quickVoids {
 		String example = JOptionPane.showInputDialog(words);
 		return(example);
 	}
-	private static int random(String random1, String random2) {
+	private static int random(int r1, int r2) {
 		Random r = new Random();
-		int r1 = Integer.parseInt(random1);
-		int r2 = Integer.parseInt(random2);
 		int rsan = r.nextInt(r2 - r1) + r1;
 		return(rsan);
 	}
@@ -52,8 +54,31 @@ public class quickVoids {
 	private static void exit()	{
 		System.exit(0);
 	}
-	
-
+	private static double addp(double x, double y)	{
+		double answer = x+y;
+		System.out.println(answer);
+		return(answer);
+	}
+	private static double multiplyp(double x, double y)	{
+		double answer = x*y;
+		System.out.println(answer);
+		return(answer);
+	}
+	private static double subtractp(double x, double y)	{
+		double answer = x-y;
+		System.out.println(answer);
+		return(answer);
+	}
+	private static double dividep(double x, double y)	{
+		double answer = x/y;
+		System.out.println(answer);
+		return(answer);
+	}
+	private static double exponentsp(double x, double y)	{
+		double answer = Math.pow(x, y);
+		System.out.println(answer);
+		return(answer);
+	}
 	
 	
 }
