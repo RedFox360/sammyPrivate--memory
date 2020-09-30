@@ -54,6 +54,7 @@ public class quickVoids {
 	private static void exit()	{
 		System.exit(0);
 	}
+	
 
 	
 	
