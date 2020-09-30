@@ -42,6 +42,7 @@ public class Calculator {
 			message("The answer is " + exponents + "");
 		}
 		
+		
 	}
 	
 	private static void message(String words)	{

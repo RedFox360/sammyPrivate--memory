@@ -11,7 +11,6 @@ public class quickVoids {
 	}
 	
 	
-	
 	private static void print(String words)	{
 		System.out.println(words);
 	}
@@ -24,7 +23,6 @@ public class quickVoids {
 	private static void printchar(char letter)	{
 		System.out.println(letter);
 	}
-	
 	private static void message(String words)	{
 		JOptionPane.showMessageDialog(null, words);
 	}
@@ -58,5 +56,4 @@ public class quickVoids {
 
 	
 	
-
 }
