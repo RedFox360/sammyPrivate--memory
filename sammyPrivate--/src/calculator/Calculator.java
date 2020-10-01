@@ -8,8 +8,8 @@ public class Calculator {
 		JOptionPane.showMessageDialog(null, "Welcome to the calculator!");
 		String number1string = JOptionPane.showInputDialog("Type in a number");
 		String number2string = JOptionPane.showInputDialog("Type in another number");
-		double number1 = Double.parseDouble(number1string);
-		double number2 = Double.parseDouble(number2string);
+		double number1 = toDouble(number1string);
+		double number2 = toDouble(number2string);
 		double subtracted = number1-number2;
 		double exponents = Math.pow(number1, number2);
 		double added = number1+number2;
@@ -47,6 +47,10 @@ public class Calculator {
 	
 	private static void message(String words)	{
 		JOptionPane.showMessageDialog(null, words);
+	}
+	private static double toDouble(String words)	{
+		double example = Double.parseDouble(words);
+		return(example);
 	}
 
 }

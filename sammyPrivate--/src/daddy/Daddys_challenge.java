@@ -15,11 +15,14 @@ public class Daddys_challenge {
 		
 		//String string = input("Type something here");
 		//print(string + string);
-		//Remove the comments on line 16 and 17 to see how the input method works.
+		//Remove the comments on lines 16 and 17 to see how the input method works.
 		
 		//message("Hello");
 		//Remove the comments on line 20 to see how the message method works.
 		
+		//int r = random(12, 23);
+		//printi(r);
+		//Remove the comments on lines 23 and 24 to generate a random number between 12 and 23.
 		
 		
 		
