@@ -8,9 +8,8 @@ public class quickVoids {
 
 	public static void main(String[] args) {
 		
-	
-
 	}
+	
 	private static boolean question(String questionS, String answer)	{
 		String a = input("" + questionS+ "");
 		boolean b1 = isequalto(a, answer);
@@ -21,27 +20,38 @@ public class quickVoids {
 		}
 		return(b1);
 	}
-	private static boolean question3(String questionS, String option1, String option2, String option3, String answer, String answerletter)	{
-		String a = input("" + questionS+ "" + '\n' + "A) " + option1 + "" + '\n' + "B) " + option2 + " " + '\n'
-				+ "C) " + option3 + " " + '\n' + "");
-		boolean b1 = isequalto2(a, answer, answerletter);
-		if (b1) {
+	private static boolean question3(String questionS, String option1, String option2, String option3, String correctanswerS, int correctanswer)	{
+		boolean iscorrect;
+		String[] options = {"A) " + option1 +"", "B) " + option2 + "", "C) " + option3 + ""};
+		int optiont = JOptionPane.showOptionDialog(null, questionS,
+		"Choose an answer",
+		JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+		if(optiont==correctanswer) {
 			message("You're correct!");
-		} else {
-			message("The correct answer is " + answer);
+			iscorrect=true;
+			}
+		else	{
+			message("The correct answer is " + correctanswerS );
+			iscorrect=false;
 		}
-		return(b1);
+		
+		return(iscorrect);
 	}
-	private static boolean question4(String questionS, String option1, String option2, String option3, String option4, String answer, String answerletter)	{
-		String a = input("" + questionS+ "" + '\n' + "A) " + option1 + "" + '\n' + "B) " + option2 + " " + '\n'
-				+ "C) " + option3 + " " + '\n' + "D) " + option4 + "");
-		boolean b1 = isequalto2(a, answer, answerletter);
-		if (b1) {
+	private static boolean question4(String questionS, String option1, String option2, String option3, String option4, String correctanswerS, int correctanswer)	{
+		boolean iscorrect;
+		String[] options = {"A) " + option1 +"", "B) " + option2 + "", "C) " + option3 + "", "D) " + option4 + ""};
+		int optiont = JOptionPane.showOptionDialog(null, questionS,
+		"Choose an answer",
+		JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+		if(optiont==correctanswer) {
 			message("You're correct!");
-		} else {
-			message("The correct answer is " + answer);
+			iscorrect=true;
+			}
+		else	{
+			message("The correct answer is " + correctanswerS );
+			iscorrect=false;
 		}
-		return(b1);
+		return(iscorrect);
 	}
 	private static boolean isequalto(String words, String check) {
 		boolean equals;
@@ -89,7 +99,7 @@ public class quickVoids {
 	}
 	private static int random(int r1, int r2) {
 		Random r = new Random();
-		int rsan = r.nextInt(r2 - r1) + r1;
+		int rsan = r.nextInt(r2 - r1+1) + r1;
 		return(rsan);
 	}
 	private static int toInt(String words)	{
@@ -131,6 +141,10 @@ public class quickVoids {
 		double answer = Math.pow(x, y);
 		System.out.println(answer);
 		return(answer);
+	}
+	private static String intToString(int x)	{
+		String string = "" + x + "";
+		return(string);
 	}
 	
 	
