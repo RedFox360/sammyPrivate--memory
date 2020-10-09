@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 public class quickVoids {
 
 	public static void main(String[] args) {
+	
 		
 	}
 	
@@ -20,6 +21,7 @@ public class quickVoids {
 		}
 		return(b1);
 	}
+	
 	private static boolean question3(String questionS, String option1, String option2, String option3, String correctanswerS, int correctanswer)	{
 		boolean iscorrect;
 		String[] options = {"A) " + option1 +"", "B) " + option2 + "", "C) " + option3 + ""};
