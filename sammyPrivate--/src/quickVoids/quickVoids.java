@@ -7,10 +7,18 @@ import javax.swing.JOptionPane;
 public class quickVoids {
 
 	public static void main(String[] args) {
-	
 		
 	}
 	
+	private static int i(int x)	{
+		int y = x;
+		return(y);
+	}
+	private static void printonloop(String words, int numberoftimes) {
+		for (int i = 0; i < numberoftimes; i++) {
+			print(words);
+		}
+	}
 	private static boolean question(String questionS, String answer)	{
 		String a = input("" + questionS+ "");
 		boolean b1 = isequalto(a, answer);
