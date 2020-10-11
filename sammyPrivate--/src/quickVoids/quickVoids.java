@@ -1,5 +1,4 @@
 package quickVoids;
-
 import java.util.Random;
 
 import javax.swing.JOptionPane;
@@ -10,22 +9,21 @@ public class quickVoids {
 		
 	}
 	
-	private static int i(int x)	{
-		int y = x;
-		return(y);
-	}
 	private static void printonloop(String words, int numberoftimes) {
 		for (int i = 0; i < numberoftimes; i++) {
-			print(words);
+			System.out.println(words);
 		}
 	}
 	private static boolean question(String questionS, String answer)	{
-		String a = input("" + questionS+ "");
-		boolean b1 = isequalto(a, answer);
-		if (b1) {
-			message("You're correct!");
-		} else {
-			message("The correct answer is " + answer);
+		String a = JOptionPane.showInputDialog("" + questionS+ "");
+		boolean b1;
+		if(a.equalsIgnoreCase(answer))	{
+			JOptionPane.showMessageDialog(null, "You're correct!");
+		b1=true;
+		}
+		else	{
+			message("Sorry, but the correct answer is " + answer + ".");
+			b1=false;
 		}
 		return(b1);
 	}
@@ -37,11 +35,11 @@ public class quickVoids {
 		"Choose an answer",
 		JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, options, null);
 		if(optiont==correctanswer) {
-			message("You're correct!");
+			JOptionPane.showMessageDialog(null, "You're correct!");
 			iscorrect=true;
 			}
 		else	{
-			message("The correct answer is " + correctanswerS );
+			JOptionPane.showMessageDialog(null, "The correct answer is " + correctanswerS );
 			iscorrect=false;
 		}
 		
@@ -54,11 +52,11 @@ public class quickVoids {
 		"Choose an answer",
 		JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, options, null);
 		if(optiont==correctanswer) {
-			message("You're correct!");
+			JOptionPane.showMessageDialog(null, "You're correct!");
 			iscorrect=true;
 			}
 		else	{
-			message("The correct answer is " + correctanswerS );
+			JOptionPane.showMessageDialog(null, "The correct answer is " + correctanswerS );
 			iscorrect=false;
 		}
 		return(iscorrect);
@@ -156,6 +154,16 @@ public class quickVoids {
 		String string = "" + x + "";
 		return(string);
 	}
-	
+	private static void helloWorld()	{
+		System.out.println("Hello World");
+	}
+	private static int intPrint(int integer)	{
+		System.out.println(integer);
+		return(integer);
+	}
+	private static String stringPrint(String words)	{
+		System.out.println(words);
+		return(words);
+	}
 	
 }
