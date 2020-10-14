@@ -1,14 +1,33 @@
 package quickVoids;
 import java.util.Random;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 @SuppressWarnings("unused")
 public class quickVoids {
-
+	
 	public static void main(String[] args) {
 		
 	}
-	
+	private static void printArray(String[] array, int x)	{
+		System.out.println(array[x-1]);
+		
+	}
+	private static JFrame JText(String words)	{
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JPanel panel = new JPanel();
+		JLabel label = new JLabel();
+		label.setText(words);
+		frame.add(panel);
+		frame.add(label);
+		frame.setSize(100, 100);
+		frame.pack();
+		return(frame);
+	}
 	private static void printonloop(String words, int numberoftimes) {
 		for (int i = 0; i < numberoftimes; i++) {
 			System.out.println(words);
@@ -27,7 +46,23 @@ public class quickVoids {
 		}
 		return(b1);
 	}
-	
+	private static boolean question2(String questionS, String option1, String option2, String correctanswerS, int correctanswer)	{
+		boolean iscorrect;
+		String[] options = {"A) " + option1 +"", "B) " + option2 + ""};
+		int optiont = JOptionPane.showOptionDialog(null, questionS,
+		"Choose an answer",
+		JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+		if(optiont==correctanswer) {
+			JOptionPane.showMessageDialog(null, "You're correct!");
+			iscorrect=true;
+			}
+		else	{
+			JOptionPane.showMessageDialog(null, "The correct answer is " + correctanswerS );
+			iscorrect=false;
+		}
+		
+		return(iscorrect);
+	}
 	private static boolean question3(String questionS, String option1, String option2, String option3, String correctanswerS, int correctanswer)	{
 		boolean iscorrect;
 		String[] options = {"A) " + option1 +"", "B) " + option2 + "", "C) " + option3 + ""};
@@ -92,7 +127,7 @@ public class quickVoids {
 	private static void printd(double number)	{
 		System.out.println(number);
 	}
-	private static void printf(String words)	{
+	private static void printn(String words)	{
 		System.out.print(words);
 	}
 	private static void printchar(char letter)	{
@@ -164,6 +199,10 @@ public class quickVoids {
 	private static String stringPrint(String words)	{
 		System.out.println(words);
 		return(words);
+	}
+	private static String string()	{
+		String x = new String();
+		return(x);
 	}
 	
 }

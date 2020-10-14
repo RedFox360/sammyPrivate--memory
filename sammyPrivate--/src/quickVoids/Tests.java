@@ -2,13 +2,14 @@ package quickVoids;
 
 import java.util.Random;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 @SuppressWarnings("unused")
 public class Tests {
 	
 public static void main(String[] args) {
-	
-	
 	
 	
 	
