@@ -1,9 +1,11 @@
 package calculator;
 
+import java.util.Scanner;
+
 import javax.swing.JOptionPane;
 
 public class Calculator {
-	public static void main(String[] args) {
+	public void run() throws Exception {
 		
 		JOptionPane.showMessageDialog(null, "Welcome to the calculator!");
 		String number1string = JOptionPane.showInputDialog("Type in a number");
@@ -15,7 +17,7 @@ public class Calculator {
 		double added = number1+number2;
 		double divided = number1/number2;
 		double multiplied = number1*number2;
-	
+		
 		
 		String[] options = {"×", "÷", "+", "-", "^"};
 		int numberop = JOptionPane.showOptionDialog(null, "Choose an operation",
@@ -44,7 +46,13 @@ public class Calculator {
 		
 		
 	}
-	
+	private static String input(String words) {
+		Scanner myObj = new Scanner(System.in);
+		System.out.println(words);
+
+		String s = myObj.nextLine();
+		return (s);
+	}
 	private static void message(String words)	{
 		JOptionPane.showMessageDialog(null, words);
 	}
