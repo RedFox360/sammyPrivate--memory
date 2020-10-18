@@ -1,8 +1,17 @@
 package daddy;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
+import javax.swing.JPanel;
+import java.awt.Component;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 @SuppressWarnings("unused")
 public class Daddys_challenge {
 
@@ -14,7 +23,7 @@ public class Daddys_challenge {
 		//Remove the comments on line 12 to see how the print method works.
 		
 		//String string = input("Type something here");
-		//print(string + string);
+		//print(string);
 		//Remove the comments on lines 16 and 17 to see how the input method works.
 		
 		//message("Hello");
@@ -23,6 +32,46 @@ public class Daddys_challenge {
 		//int r = random(12, 23);
 		//printi(r);
 		//Remove the comments on lines 23 and 24 to generate a random number between 12 and 23.
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+		
+		
+		
+
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -49,37 +98,111 @@ public class Daddys_challenge {
 	//DO NOT CHANGE ANYTHING BELOW THIS COMMENT
 	
 	
-	private static boolean question(String questionS, String answer)	{
-		String a = input("" + questionS+ "");
-		boolean b1 = isequalto(a, answer);
-		if (b1) {
-			message("You're correct!");
-		} else {
-			message("The correct answer is " + answer);
-		}
-		return(b1);
+	private static void longSleep(int seconds) throws InterruptedException	{
+		TimeUnit.SECONDS.sleep(seconds);
 	}
-	private static boolean question3(String questionS, String option1, String option2, String option3, String answer, String answerletter)	{
-		String a = input("" + questionS+ "" + '\n' + "A) " + option1 + "" + '\n' + "B) " + option2 + " " + '\n'
-				+ "C) " + option3 + " " + '\n' + "");
-		boolean b1 = isequalto2(a, answer, answerletter);
-		if (b1) {
-			message("You're correct!");
-		} else {
-			message("The correct answer is " + answer);
-		}
-		return(b1);
+	private static void sleep(int milliseconds) throws InterruptedException	{
+		TimeUnit.MILLISECONDS.sleep(milliseconds);
 	}
-	private static boolean question4(String questionS, String option1, String option2, String option3, String option4, String answer, String answerletter)	{
-		String a = input("" + questionS+ "" + '\n' + "A) " + option1 + "" + '\n' + "B) " + option2 + " " + '\n'
-				+ "C) " + option3 + " " + '\n' + "D) " + option4 + "");
-		boolean b1 = isequalto2(a, answer, answerletter);
-		if (b1) {
-			message("You're correct!");
-		} else {
-			message("The correct answer is " + answer);
+	private static String input(String words) {
+		Scanner myObj = new Scanner(System.in);
+		System.out.println(words);
+		String s = myObj.nextLine();
+		return (s);
+	}
+
+	private static void printArray(String[] array, int x) {
+		System.out.println(array[x - 1]);
+
+	}
+	
+	private Component createImage(String imageUrl) throws MalformedURLException {
+		URL url = new URL(imageUrl);
+		Icon icon = new ImageIcon(url);
+		JLabel imageLabel = new JLabel(icon);
+		return imageLabel;
+	}
+	private static JFrame JText(String words) {
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JPanel panel = new JPanel();
+		JLabel label = new JLabel();
+		label.setText(words);
+		frame.add(panel);
+		frame.add(label);
+		frame.setSize(100, 100);
+		frame.pack();
+		return (frame);
+	}
+
+	private static void printonloop(String words, int numberoftimes) {
+		for (int i = 0; i < numberoftimes; i++) {
+			System.out.println(words);
 		}
-		return(b1);
+	}
+
+	private static boolean question(String questionS, String answer) {
+		String a = JOptionPane.showInputDialog("" + questionS + "");
+		boolean b1;
+		if (a.equalsIgnoreCase(answer)) {
+			JOptionPane.showMessageDialog(null, "You're correct!");
+			b1 = true;
+		} else {
+			message("Sorry, but the correct answer is " + answer + ".");
+			b1 = false;
+		}
+		return (b1);
+	}
+
+	private static boolean question2(String questionS, String option1, String option2, String correctanswerS,
+			int correctanswer) {
+		boolean iscorrect;
+		String[] options = { "A) " + option1 + "", "B) " + option2 + "" };
+		int optiont = JOptionPane.showOptionDialog(null, questionS, "Choose an answer", JOptionPane.INFORMATION_MESSAGE,
+				JOptionPane.INFORMATION_MESSAGE, null, options, null);
+		if (optiont == correctanswer+1) {
+			JOptionPane.showMessageDialog(null, "You're correct!");
+			iscorrect = true;
+		} else {
+			JOptionPane.showMessageDialog(null, "The correct answer is " + correctanswerS);
+			iscorrect = false;
+		}
+
+		return (iscorrect);
+	}
+
+	private static boolean question3(String questionS, String option1, String option2, String option3,
+			String correctanswerS, int correctanswer) {
+		boolean iscorrect;
+		String[] options = { "A) " + option1 + "", "B) " + option2 + "", "C) " + option3 + "" };
+		int optiont = JOptionPane.showOptionDialog(null, questionS, "Choose an answer", JOptionPane.INFORMATION_MESSAGE,
+				JOptionPane.INFORMATION_MESSAGE, null, options, null);
+		if (optiont == correctanswer+1) {
+			JOptionPane.showMessageDialog(null, "You're correct!");
+			iscorrect = true;
+		} else {
+			JOptionPane.showMessageDialog(null, "The correct answer is " + correctanswerS);
+			iscorrect = false;
+		}
+
+		return (iscorrect);
+	}
+
+	private static boolean question4(String questionS, String option1, String option2, String option3, String option4,
+			String correctanswerS, int correctanswer) {
+		boolean iscorrect;
+		String[] options = { "A) " + option1 + "", "B) " + option2 + "", "C) " + option3 + "", "D) " + option4 + "" };
+		int optiont = JOptionPane.showOptionDialog(null, questionS, "Choose an answer", JOptionPane.INFORMATION_MESSAGE,
+				JOptionPane.INFORMATION_MESSAGE, null, options, null);
+		if (optiont == correctanswer+1) {
+			JOptionPane.showMessageDialog(null, "You're correct!");
+			iscorrect = true;
+		} else {
+			JOptionPane.showMessageDialog(null, "The correct answer is " + correctanswerS);
+			iscorrect = false;
+		}
+		return (iscorrect);
 	}
 
 	private static boolean isequalto(String words, String check) {
@@ -106,6 +229,7 @@ public class Daddys_challenge {
 
 	private static void print(String words) {
 		System.out.println(words);
+
 	}
 
 	private static void printi(int integer) {
@@ -116,7 +240,7 @@ public class Daddys_challenge {
 		System.out.println(number);
 	}
 
-	private static void printf(String words) {
+	private static void printn(String words) {
 		System.out.print(words);
 	}
 
@@ -128,14 +252,14 @@ public class Daddys_challenge {
 		JOptionPane.showMessageDialog(null, words);
 	}
 
-	private static String input(String words) {
+	private static String paneinput(String words) {
 		String example = JOptionPane.showInputDialog(words);
 		return (example);
 	}
 
 	private static int random(int r1, int r2) {
 		Random r = new Random();
-		int rsan = r.nextInt(r2 - r1) + r1;
+		int rsan = r.nextInt(r2 - r1 + 1) + r1;
 		return (rsan);
 	}
 
@@ -187,5 +311,28 @@ public class Daddys_challenge {
 		System.out.println(answer);
 		return (answer);
 	}
+
+	private static String intToString(int x) {
+		String string = "" + x + "";
+		return (string);
+	}
+
+	private static void helloWorld() {
+		System.out.println("Hello World");
+	}
+
+	private static int intPrint(int integer) {
+		System.out.println(integer);
+		return (integer);
+	}
+
+	private static String stringPrint(String words) {
+		System.out.println(words);
+		return (words);
+	}
+
+	private static String string() {
+		String x = new String();
+		return (x);
+	}
 }
- 

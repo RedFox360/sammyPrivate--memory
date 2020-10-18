@@ -22,8 +22,7 @@ public class AnniesQuiz {
 		message("You got " + score + " out of 4 questions correct.");
 	
 		
-		
-		
+	
 		
 		
 		

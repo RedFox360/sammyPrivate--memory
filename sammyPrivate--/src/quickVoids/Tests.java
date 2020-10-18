@@ -11,8 +11,7 @@ import javax.swing.JPanel;
 public class Tests {
 	 
 public static <Words> void main(String[] args) {
-	Words x = (Words) "Hello";
-	System.out.println(x);
+	
 	
 	
 	

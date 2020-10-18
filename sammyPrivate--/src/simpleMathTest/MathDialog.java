@@ -46,7 +46,10 @@ public class MathDialog {
 			else {
 				JOptionPane.showMessageDialog(null, "The correct answer is " + answers);
 			}
-		}
+			
+	
 
 	}
 }
+}
+

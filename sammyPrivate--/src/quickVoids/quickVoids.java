@@ -19,7 +19,7 @@ public class quickVoids {
 
 
 	public static void main(String[] args) throws InterruptedException {
-		 
+		
 	}
 	
 	private static void longSleep(int seconds) throws InterruptedException	{
@@ -66,8 +66,8 @@ public class quickVoids {
 		}
 	}
 
-	private static boolean question(String questionS, String answer) {
-		String a = JOptionPane.showInputDialog("" + questionS + "");
+	private static boolean question(String title, String answer) {
+		String a = JOptionPane.showInputDialog("" + title + "");
 		boolean b1;
 		if (a.equalsIgnoreCase(answer)) {
 			JOptionPane.showMessageDialog(null, "You're correct!");
@@ -79,51 +79,51 @@ public class quickVoids {
 		return (b1);
 	}
 
-	private static boolean question2(String questionS, String option1, String option2, String correctanswerS,
+	private static boolean question2(String title, String option1, String option2, String stringCorrectAnswer,
 			int correctanswer) {
 		boolean iscorrect;
 		String[] options = { "A) " + option1 + "", "B) " + option2 + "" };
-		int optiont = JOptionPane.showOptionDialog(null, questionS, "Choose an answer", JOptionPane.INFORMATION_MESSAGE,
+		int optiont = JOptionPane.showOptionDialog(null, title, "Choose an answer", JOptionPane.INFORMATION_MESSAGE,
 				JOptionPane.INFORMATION_MESSAGE, null, options, null);
 		if (optiont == correctanswer) {
 			JOptionPane.showMessageDialog(null, "You're correct!");
 			iscorrect = true;
 		} else {
-			JOptionPane.showMessageDialog(null, "The correct answer is " + correctanswerS);
+			JOptionPane.showMessageDialog(null, "The correct answer is " + stringCorrectAnswer);
 			iscorrect = false;
 		}
 
 		return (iscorrect);
 	}
 
-	private static boolean question3(String questionS, String option1, String option2, String option3,
-			String correctanswerS, int correctanswer) {
+	private static boolean question3(String title, String option1, String option2, String option3,
+			String stringCorrectAnswer, int correctanswer) {
 		boolean iscorrect;
 		String[] options = { "A) " + option1 + "", "B) " + option2 + "", "C) " + option3 + "" };
-		int optiont = JOptionPane.showOptionDialog(null, questionS, "Choose an answer", JOptionPane.INFORMATION_MESSAGE,
+		int optiont = JOptionPane.showOptionDialog(null, title, "Choose an answer", JOptionPane.INFORMATION_MESSAGE,
 				JOptionPane.INFORMATION_MESSAGE, null, options, null);
 		if (optiont == correctanswer) {
 			JOptionPane.showMessageDialog(null, "You're correct!");
 			iscorrect = true;
 		} else {
-			JOptionPane.showMessageDialog(null, "The correct answer is " + correctanswerS);
+			JOptionPane.showMessageDialog(null, "The correct answer is " + stringCorrectAnswer);
 			iscorrect = false;
 		}
 
 		return (iscorrect);
 	}
 
-	private static boolean question4(String questionS, String option1, String option2, String option3, String option4,
-			String correctanswerS, int correctanswer) {
+	private static boolean question4(String title, String option1, String option2, String option3, String option4,
+			String stringCorrectAnswer, int correctanswer) {
 		boolean iscorrect;
 		String[] options = { "A) " + option1 + "", "B) " + option2 + "", "C) " + option3 + "", "D) " + option4 + "" };
-		int optiont = JOptionPane.showOptionDialog(null, questionS, "Choose an answer", JOptionPane.INFORMATION_MESSAGE,
+		int optiont = JOptionPane.showOptionDialog(null, title, "Choose an answer", JOptionPane.INFORMATION_MESSAGE,
 				JOptionPane.INFORMATION_MESSAGE, null, options, null);
 		if (optiont == correctanswer) {
 			JOptionPane.showMessageDialog(null, "You're correct!");
 			iscorrect = true;
 		} else {
-			JOptionPane.showMessageDialog(null, "The correct answer is " + correctanswerS);
+			JOptionPane.showMessageDialog(null, "The correct answer is " + stringCorrectAnswer);
 			iscorrect = false;
 		}
 		return (iscorrect);

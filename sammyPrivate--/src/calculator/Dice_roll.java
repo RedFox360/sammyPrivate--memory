@@ -5,13 +5,13 @@ import java.util.Random;
 public class Dice_roll {
 
 	public static void main(String[] args) {
-		roll(7);
+		roll(14253);
 
 	}
 	
-private static void roll(int x)	{
+private static void roll(int sides)	{
 	for (int i = 0; i < 6; i++) {
-		int r = random(1, x);
+		int r = random(1, sides);
 		System.out.println(r);}
 }
 	private static int random(int r1, int r2) {
@@ -19,5 +19,6 @@ private static void roll(int x)	{
 		int rsan = r.nextInt(r2 - r1+1) + r1;
 		return(rsan);
 	}
+	
 }
 
