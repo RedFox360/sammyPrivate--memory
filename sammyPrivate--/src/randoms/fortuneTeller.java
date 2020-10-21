@@ -44,7 +44,7 @@ public class fortuneTeller {
 				r1 = 1;
 			}
 		}
-		int random = new Random().nextInt(r2-r1+1) + r1;
+		int random = new Random().nextInt(r2 - r1 + 1) + r1;
 		String spiritAnimalAnswer = spiritAnimal[random];
 		JOptionPane.showMessageDialog(null, "Your spirit animal is " + spiritAnimalAnswer + ".");
 	}

@@ -12,8 +12,15 @@ import javax.swing.JOptionPane;
 public class TestsWithoutVods {
 
 	public static void main(String[] args) throws InterruptedException {
-			String[] options = {"Option 1", "Option 2"};
-			int opt = JOptionPane.showOptionDialog(null, "Hello", "Window title", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, options, 0);
+			JFrame frame = new JFrame();
+			JPanel panel = new JPanel();
+			JLabel label = new JLabel();
+			frame.setVisible(true);
+			label.setText("Hello");
+			frame.add(panel);
+			frame.add(label);
+			frame.pack();
+			
 				
 	}
 }
