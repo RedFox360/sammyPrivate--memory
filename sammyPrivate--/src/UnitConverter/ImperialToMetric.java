@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 import javax.swing.JOptionPane;
 
 public class ImperialToMetric {
-	public static void main(String[] args) {
+	public void run() {
 		String[] options = { "Feet to meters", "Miles to kilometers", "Pounds to kilograms", "Gallons to liters",
 				"Fahrenheit to Celsius" };
 		int opt = JOptionPane.showOptionDialog(null, "What would you like to convert?", "Imperial to metric converter",

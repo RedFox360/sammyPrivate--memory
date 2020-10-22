@@ -19,9 +19,17 @@ public class quickVoids {
 
 
 	public static void main(String[] args) throws InterruptedException {
-		
+		double x = 3.526030620502040200530;
+		double rounded = round(x, 4);
+		System.out.println(rounded);
 	}
-	
+	private static double round(double number, double decimalPlace)	{
+		double toBeMultiplied = Math.pow(10, decimalPlace);
+		number*=toBeMultiplied;
+		number = Math.round(number);
+		number/=toBeMultiplied;
+		return(number);
+	}
 	private static void longSleep(int seconds) throws InterruptedException	{
 		TimeUnit.SECONDS.sleep(seconds);
 	}
