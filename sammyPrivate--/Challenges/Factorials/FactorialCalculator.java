@@ -17,7 +17,8 @@ public void run()	{
 		runner-=1;
 		factorial*=runner;
 	}
-	System.out.println(factorial);
+	System.out.println(a + " factorial is " + factorial);
 	}
+	
 }
 }

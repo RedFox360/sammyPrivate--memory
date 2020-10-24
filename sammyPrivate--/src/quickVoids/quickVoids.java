@@ -23,38 +23,49 @@ public class quickVoids {
 		double rounded = round(x, 4);
 		System.out.println(rounded);
 	}
-	private static double round(double number, double decimalPlace)	{
+
+	 static boolean primeOrNot(int prime) {
+		boolean primeOrNot;
+		for (int i = 2; i < prime; i++) {
+			if (prime % i == 0) {
+				primeOrNot = false;
+			}
+		}
+		primeOrNot = true;
+		return (primeOrNot);
+	}
+	 static double round(double number, double decimalPlace)	{
 		double toBeMultiplied = Math.pow(10, decimalPlace);
 		number*=toBeMultiplied;
 		number = Math.round(number);
 		number/=toBeMultiplied;
 		return(number);
 	}
-	private static void longSleep(int seconds) throws InterruptedException	{
+	 static void longSleep(int seconds) throws InterruptedException	{
 		TimeUnit.SECONDS.sleep(seconds);
 	}
-	private static void sleep(int milliseconds) throws InterruptedException	{
+	 static void sleep(int milliseconds) throws InterruptedException	{
 		TimeUnit.MILLISECONDS.sleep(milliseconds);
 	}
-	private static String input(String words) {
+	 static String input(String words) {
 		Scanner myObj = new Scanner(System.in);
 		System.out.println(words);
 		String s = myObj.nextLine();
 		return (s);
 	}
 
-	private static void printArray(String[] array, int x) {
+	 static void printArray(String[] array, int x) {
 		System.out.println(array[x - 1]);
 
 	}
 	
-	private Component createImage(String imageUrl) throws MalformedURLException {
+	 Component createImage(String imageUrl) throws MalformedURLException {
 		URL url = new URL(imageUrl);
 		Icon icon = new ImageIcon(url);
 		JLabel imageLabel = new JLabel(icon);
 		return imageLabel;
 	}
-	private static JFrame JText(String words) {
+	 static JFrame JText(String words) {
 		JFrame frame = new JFrame();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,13 +79,13 @@ public class quickVoids {
 		return (frame);
 	}
 
-	private static void printonloop(String words, int numberoftimes) {
+	 static void printonloop(String words, int numberoftimes) {
 		for (int i = 0; i < numberoftimes; i++) {
 			System.out.println(words);
 		}
 	}
 
-	private static boolean question(String title, String answer) {
+	 static boolean question(String title, String answer) {
 		String a = JOptionPane.showInputDialog("" + title + "");
 		boolean b1;
 		if (a.equalsIgnoreCase(answer)) {
@@ -87,7 +98,7 @@ public class quickVoids {
 		return (b1);
 	}
 
-	private static boolean question2(String title, String option1, String option2, String stringCorrectAnswer,
+	 static boolean question2(String title, String option1, String option2, String stringCorrectAnswer,
 			int correctanswer) {
 		boolean iscorrect;
 		String[] options = { "A) " + option1 + "", "B) " + option2 + "" };
@@ -104,7 +115,7 @@ public class quickVoids {
 		return (iscorrect);
 	}
 
-	private static boolean question3(String title, String option1, String option2, String option3,
+	 static boolean question3(String title, String option1, String option2, String option3,
 			String stringCorrectAnswer, int correctanswer) {
 		boolean iscorrect;
 		String[] options = { "A) " + option1 + "", "B) " + option2 + "", "C) " + option3 + "" };
@@ -121,7 +132,7 @@ public class quickVoids {
 		return (iscorrect);
 	}
 
-	private static boolean question4(String title, String option1, String option2, String option3, String option4,
+	 static boolean question4(String title, String option1, String option2, String option3, String option4,
 			String stringCorrectAnswer, int correctanswer) {
 		boolean iscorrect;
 		String[] options = { "A) " + option1 + "", "B) " + option2 + "", "C) " + option3 + "", "D) " + option4 + "" };
@@ -137,7 +148,7 @@ public class quickVoids {
 		return (iscorrect);
 	}
 
-	private static boolean isequalto(String words, String check) {
+	 static boolean isequalto(String words, String check) {
 		boolean equals;
 		if (words.equalsIgnoreCase(check)) {
 			equals = true;
@@ -147,7 +158,7 @@ public class quickVoids {
 		return (equals);
 	}
 
-	private static boolean isequalto2(String words, String check1, String check2) {
+	 static boolean isequalto2(String words, String check1, String check2) {
 		boolean equals;
 		if (words.equalsIgnoreCase(check1)) {
 			equals = true;
@@ -159,111 +170,111 @@ public class quickVoids {
 		return (equals);
 	}
 
-	private static void print(String words) {
+	 static void print(String words) {
 		System.out.println(words);
 
 	}
 
-	private static void printi(int integer) {
+	 static void printi(int integer) {
 		System.out.println("" + integer + "");
 	}
 
-	private static void printd(double number) {
+	 static void printd(double number) {
 		System.out.println(number);
 	}
 
-	private static void printn(String words) {
+	 static void printn(String words) {
 		System.out.print(words);
 	}
 
-	private static void printchar(char letter) {
+	 static void printchar(char letter) {
 		System.out.println(letter);
 	}
 
-	private static void message(String words) {
+	 static void message(String words) {
 		JOptionPane.showMessageDialog(null, words);
 	}
 
-	private static String paneinput(String words) {
+	 static String paneinput(String words) {
 		String example = JOptionPane.showInputDialog(words);
 		return (example);
 	}
 
-	private static int random(int r1, int r2) {
+	 static int random(int r1, int r2) {
 		Random r = new Random();
 		int rsan = r.nextInt(r2 - r1 + 1) + r1;
 		return (rsan);
 	}
 
-	private static int toInt(String words) {
+	 static int toInt(String words) {
 		int example = Integer.parseInt(words);
 		return (example);
 	}
 
-	private static double toDouble(String words) {
+	 static double toDouble(String words) {
 		double example = Double.parseDouble(words);
 		return (example);
 	}
 
-	private static char charAt(String words, int x) {
+	 static char charAt(String words, int x) {
 		char example = words.charAt(x - 1);
 		return (example);
 	}
 
-	private static void exit() {
+	 static void exit() {
 		System.exit(0);
 	}
 
-	private static double addp(double x, double y) {
+	 static double addp(double x, double y) {
 		double answer = x + y;
 		System.out.println(answer);
 		return (answer);
 	}
 
-	private static double multiplyp(double x, double y) {
+	 static double multiplyp(double x, double y) {
 		double answer = x * y;
 		System.out.println(answer);
 		return (answer);
 	}
 
-	private static double subtractp(double x, double y) {
+	 static double subtractp(double x, double y) {
 		double answer = x - y;
 		System.out.println(answer);
 		return (answer);
 	}
 
-	private static double dividep(double x, double y) {
+	 static double dividep(double x, double y) {
 		double answer = x / y;
 		System.out.println(answer);
 		return (answer);
 	}
 
-	private static double exponentsp(double x, double y) {
+	 static double exponentsp(double x, double y) {
 		double answer = Math.pow(x, y);
 		System.out.println(answer);
 		return (answer);
 	}
 
-	private static String intToString(int x) {
+	 static String intToString(int x) {
 		String string = "" + x + "";
 		return (string);
 	}
 
-	private static void helloWorld() {
+	 static void helloWorld() {
 		System.out.println("Hello World");
 	}
 
-	private static int intPrint(int integer) {
+	 static int intPrint(int integer) {
 		System.out.println(integer);
 		return (integer);
 	}
 
-	private static String stringPrint(String words) {
+	 static String stringPrint(String words) {
 		System.out.println(words);
 		return (words);
 	}
 
-	private static String string() {
+	 static String string() {
 		String x = new String();
 		return (x);
 	}

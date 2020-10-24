@@ -9,18 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-public class TestsWithoutVods {
+public class TestsWithoutVoids {
 
 	public static void main(String[] args) throws InterruptedException {
-			JFrame frame = new JFrame();
-			JPanel panel = new JPanel();
-			JLabel label = new JLabel();
-			frame.setVisible(true);
-			label.setText("Hello");
-			frame.add(panel);
-			frame.add(label);
-			frame.pack();
-			
-				
+		
 	}
 }
