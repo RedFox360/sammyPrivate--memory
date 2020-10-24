@@ -1,4 +1,4 @@
-package PrimeFactorization;
+package primeFactorization;
 
 public class PrimeFactorizationRunner {
 public static void main(String[] args) {

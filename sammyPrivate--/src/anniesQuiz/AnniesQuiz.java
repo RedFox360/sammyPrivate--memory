@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 @SuppressWarnings("unused")
 public class AnniesQuiz {
 
-	public static void main(String[] args) {
+	public void run() {
 
 		int score = 0;
 		

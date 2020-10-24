@@ -1,23 +1,14 @@
 package Tests;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
-public class Tests {
-	 int x = 4;
+public class Tests {	
 	
-public static void main(String[] args) {
-	
-	for
-	(
-			int i = 0;
-			i < 45;
-			i++
-			) {
-	
+
+	public static void main(String[] args) {
+		
+
 	}
 	
-}
-void print(String words) {
-	System.out.println(words);
-}
 }
