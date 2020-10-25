@@ -9,9 +9,7 @@ public class SecretMessageBox {
 	String secretMessage;
 	String passwordGuess;
 	String authGuess;
-	int authGuessAsInt;
-	
-	
+	int authGuessAsInt;	
 boolean run()	{
 	boolean isCorrect = false;
 	JOptionPane.showMessageDialog(null, "Person 1: Write a password for a secret message to protect person 2 from viewing the message. ");
@@ -37,4 +35,6 @@ boolean run()	{
 	return(isCorrect);
 
 }
+
 }
+
