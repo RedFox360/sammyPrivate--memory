@@ -1,4 +1,4 @@
-package UniverseGame2;
+package universeGameQuiz;
 
 public class UniverseGameQuizRunner {
 

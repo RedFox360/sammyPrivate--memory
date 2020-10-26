@@ -1,4 +1,4 @@
-package universeGame;
+package _01_Random_Questions;
 
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;

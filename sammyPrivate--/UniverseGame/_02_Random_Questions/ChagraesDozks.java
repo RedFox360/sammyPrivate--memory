@@ -1,4 +1,4 @@
-package universeGame;
+package _02_Random_Questions;
 
 import javax.swing.JOptionPane;
 

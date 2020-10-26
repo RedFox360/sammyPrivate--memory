@@ -1,4 +1,4 @@
-package UniverseGame2;
+package _01_Random_Questions;
 
 import java.net.URI;
 import java.applet.AudioClip;
