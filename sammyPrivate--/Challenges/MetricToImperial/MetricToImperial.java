@@ -1,9 +1,9 @@
-package UnitConverter;
+package MetricToImperial;
 
 import javax.swing.JOptionPane;
 
 public class MetricToImperial {
-public void run()	{
+public static void main(String[] args)	{
 	String[] options = { "Meters to feet", "Kilometers to miles", "Kilograms to pounds", "Liters to gallons",
 	"Celsius to Fahrenheit" };
 int opt = JOptionPane.showOptionDialog(null, "What would you like to convert?", "Metric to imperial converter",

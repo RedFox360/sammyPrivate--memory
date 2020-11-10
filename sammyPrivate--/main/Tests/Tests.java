@@ -8,10 +8,16 @@ public class Tests {
 		
 	}
 	public static void main(String[] args) {
-		
-	}
-	public static void print(String words) {
-		System.out.println(words);
+		Scanner scan = new Scanner(System.in);
+		int answer;
+		System.out.println("What is 2 + 2?");
+		answer = scan.nextInt();
+		if(answer==4) {
+			System.out.println("Correct!");
+		}
+		else	{
+			System.out.println("Seriously, how did you get that wrong?");
+		}
 	}
 	
 }
