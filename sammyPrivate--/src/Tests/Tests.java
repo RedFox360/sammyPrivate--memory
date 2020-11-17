@@ -3,21 +3,22 @@ package Tests;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 public class Tests {	
 	public void run()	{
 		
 	}
 	public static void main(String[] args) {
-		Scanner scan = new Scanner(System.in);
-		int answer;
-		System.out.println("What is 2 + 2?");
-		answer = scan.nextInt();
-		if(answer==4) {
-			System.out.println("Correct!");
-		}
-		else	{
-			System.out.println("Seriously, how did you get that wrong?");
-		}
+		JCheckBox x = new JCheckBox("hello");
+		JFrame f = new JFrame();
+		JPanel p = new JPanel();
+		p.add(x);
+		f.add(p);
+		f.setVisible(true);
+		f.pack();
 	}
 	
 }

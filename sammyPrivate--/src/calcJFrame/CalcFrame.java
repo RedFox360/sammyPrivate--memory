@@ -3,7 +3,6 @@ package calcJFrame;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
 import java.awt.datatransfer.StringSelection;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -12,8 +11,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.util.Scanner;
+import java.math.MathContext;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -26,7 +25,7 @@ public class CalcFrame implements ActionListener {
 	private JButton x = new JButton();
 	private JButton slash = new JButton();
 	private JButton e = new JButton();
-	private static JLabel l = new JLabel();
+	static JLabel l = new JLabel();
 	private JButton clear = new JButton();
 	private JButton b7 = new JButton();
 	private JButton b8 = new JButton();
@@ -41,16 +40,16 @@ public class CalcFrame implements ActionListener {
 	private JButton dec = new JButton();
 	private JButton neg = new JButton();
 	private JButton fact = new JButton();
-	static boolean fpressed = false;
-	static String op = "";
+	private static String op = "";
 	static BigDecimal number1 = new BigDecimal(0);
 	static BigDecimal number2 = new BigDecimal(0);
-	static boolean opPressed = false;
-	static boolean decPressed = false;
-	static String labelText;
-	BigDecimal answer = new BigDecimal(0);
-	String previous;
-	DecimalFormat df = new DecimalFormat("0.#");
+	private static double dnumber1;
+	private static double dnumber2;
+	private static double decTimes = 0;
+	private static boolean opPressed = false;
+	private static boolean decPressed = false;
+	private static String labelText;
+	private BigDecimal answer = new BigDecimal(0);
 
 	public void run() {
 		f.setTitle("Calculator");
@@ -74,10 +73,10 @@ public class CalcFrame implements ActionListener {
 		b0.setText("0");
 		dec.setText(".");
 		neg.setText("n");
-		fact.setText("!");
+		fact.setText("^");
 		// ops
-		Dimension buttonSize = new Dimension(50, 50);
-		clear.setPreferredSize(new Dimension(75, 50));
+		Dimension buttonSize = new Dimension(55, 55);
+		clear.setPreferredSize(new Dimension(68, 55));
 		b7.setPreferredSize(buttonSize);
 		b8.setPreferredSize(buttonSize);
 		b9.setPreferredSize(buttonSize);
@@ -87,23 +86,24 @@ public class CalcFrame implements ActionListener {
 		b1.setPreferredSize(buttonSize);
 		neg.setPreferredSize(buttonSize);
 		b0.setPreferredSize(buttonSize);
-		fact.setPreferredSize(new Dimension(30, 50));
+		fact.setPreferredSize(new Dimension(42, 55));
 		b2.setPreferredSize(buttonSize);
 		b3.setPreferredSize(buttonSize);
 		plus.setPreferredSize(buttonSize);
 		x.setPreferredSize(buttonSize);
 		slash.setPreferredSize(buttonSize);
 		minus.setPreferredSize(buttonSize);
-		e.setPreferredSize(new Dimension(105, 50));
+		e.setPreferredSize(new Dimension(115, 55));
 		Color backgroundofe = new Color(171, 255, 171);
 		Color backgroundBlue = new Color(212, 240, 255);
 		e.setBackground(backgroundofe);
 		plus.setBackground(backgroundBlue);
+		fact.setBackground(backgroundBlue);
 		x.setBackground(backgroundBlue);
 		slash.setBackground(backgroundBlue);
 		minus.setBackground(backgroundBlue);
-		f.setPreferredSize(new Dimension(250, 380));
-		l.setPreferredSize(new Dimension(200, 50));
+		f.setPreferredSize(new Dimension(280, 420));
+		l.setPreferredSize(new Dimension(200, 55));
 		l.setHorizontalAlignment(SwingConstants.RIGHT);
 		dec.setPreferredSize(buttonSize);
 		// adding comps
@@ -153,6 +153,7 @@ public class CalcFrame implements ActionListener {
 		b0.addActionListener(this);
 		neg.addActionListener(this);
 		dec.addActionListener(this);
+		fact.addActionListener(this);
 		// op
 		f.pack();
 	}
@@ -189,6 +190,12 @@ public class CalcFrame implements ActionListener {
 		if (ae.getSource() == b0) {
 			setn(0);
 		}
+		if (ae.getSource() == fact) {
+			op = "^";
+			opPressed = true;
+			decPressed = false;
+			decTimes = 0;
+		}
 		if (ae.getSource() == dec) {
 			decPressed = true;
 		}
@@ -207,39 +214,62 @@ public class CalcFrame implements ActionListener {
 		if (ae.getSource() == plus) {
 			op = "+";
 			opPressed = true;
+			decPressed = false;
+			decTimes = 0;
 		}
 		if (ae.getSource() == x) {
 			op = "x";
 			opPressed = true;
+			decPressed = false;
+			decTimes = 0;
 		}
 		if (ae.getSource() == slash) {
 			op = "/";
 			opPressed = true;
+			decPressed = false;
+			decTimes = 0;
 		}
 		if (ae.getSource() == minus) {
 			op = "-";
 			opPressed = true;
+			decPressed = false;
+			decTimes = 0;
 		}
 		if (ae.getSource() == e) {
+			MathContext m = new MathContext(8);
 			if (op.equals("x")) {
 				answer = number1.multiply(number2);
+				answer = answer.round(m);
 				labelText = "" + answer;
 			}
 			if (op.equals("/")) {
 				double n1 = number1.doubleValue();
 				double n2 = number2.doubleValue();
-				double an = n1/n2;
+				double an = n1 / n2;
+				if(n2 == 0) {
+					labelText = "Undefined";
+				} else {
 				labelText = "" + an;
+				}
+				answer = new BigDecimal(an);
 			}
 			if (op.equals("+")) {
 				answer = number1.add(number2);
+				answer = answer.round(m);
 				labelText = "" + answer;
 			}
 			if (op.equals("-")) {
 				answer = number1.subtract(number2);
+				answer = answer.round(m);
 				labelText = "" + answer;
 			}
-			
+			if (op.equals("^")) {
+				double d1 = number1.doubleValue();
+				double d2 = number2.doubleValue();
+				double an = Math.pow(d1, d2);
+				labelText = "" + an;
+			}
+
 			StringSelection stringSelection = new StringSelection(labelText);
 			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 			clipboard.setContents(stringSelection, null);
@@ -252,44 +282,67 @@ public class CalcFrame implements ActionListener {
 			labelText = "";
 			l.setText(labelText);
 			opPressed = false;
+			decPressed = false;
 			f.pack();
-			
+			decTimes = 0;
+
 		}
 	}
+
 	private static double factorial(double a) {
 		double runner = a;
-		double forRunner = a-1;
-		for (long j = 0; j < forRunner-1; j++) {
-			runner-=1;
-			a*=runner;
+		double forRunner = a - 1;
+		for (long j = 0; j < forRunner - 1; j++) {
+			runner -= 1;
+			a *= runner;
 		}
 		return a;
 	}
+
 	private static void setn(double te) {
 		if (opPressed == false) {
-			if(decPressed == true) {
-				
-			} 
-			if(decPressed == false) {
-			BigDecimal take = new BigDecimal(te);
-			labelText = "" + number1 + take;
-			BigDecimal t = new BigDecimal(labelText);
-			number1 = t;
+			if (decPressed == true) {
+				decTimes += 1;
+				dnumber1 = number1.doubleValue();
+				double divisor = Math.pow(10, decTimes);
+				te /= divisor;
+				dnumber1 += te;
+				number1 = new BigDecimal(dnumber1);
+				labelText = "" + dnumber1;
+				l.setText(labelText);
+				f.pack();
+
+			}
+			if (decPressed == false) {
+				BigDecimal take = new BigDecimal(te);
+				labelText = "" + number1 + take;
+				BigDecimal t = new BigDecimal(labelText);
+				number1 = t;
 			}
 		}
-		
 		if (opPressed == true) {
-			if(decPressed == true) {
-				
+			if (decPressed == true) {
+				decTimes += 1;
+				dnumber2 = number2.doubleValue();
+				double divisor = Math.pow(10, decTimes);
+				te /= divisor;
+				dnumber2 += te;
+				number2 = new BigDecimal(dnumber2);
+				labelText = "" + dnumber2;
+				l.setText(labelText);
+				f.pack();
+
 			}
-			if(decPressed == false) {
-			BigDecimal take = new BigDecimal(te);
-			labelText = "" + number2 + take;
-			BigDecimal t = new BigDecimal(labelText);
-			number2 = t;
+			if (decPressed == false) {
+				BigDecimal take = new BigDecimal(te);
+				labelText = "" + number2 + take;
+				BigDecimal t = new BigDecimal(labelText);
+				number2 = t;
 			}
 		}
+
 		l.setText(labelText);
 		f.pack();
 	}
+
 }
