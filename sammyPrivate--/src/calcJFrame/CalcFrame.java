@@ -45,11 +45,13 @@ public class CalcFrame implements ActionListener {
 	private static String op = "";
 	static BigDecimal number1 = new BigDecimal(0);
 	static BigDecimal number2 = new BigDecimal(0);
+	static BigDecimal number3 = new BigDecimal(0);
 	private static double dnumber1;
 	private static double dnumber2;
 	private static double decTimes = 0;
 	private static boolean opPressed = false;
 	private static boolean decPressed = false;
+	private static boolean opPressedTwice = false;
 	private static String labelText;
 	private BigDecimal answer = new BigDecimal(0);
 
@@ -83,7 +85,7 @@ public class CalcFrame implements ActionListener {
 		sqrt.setText("sqrt");
 		// ops
 		Dimension buttonSize = new Dimension(55, 55);
-		clear.setPreferredSize(new Dimension(68, 55));
+		clear.setPreferredSize(new Dimension(115, 55));
 		b7.setPreferredSize(buttonSize);
 		b8.setPreferredSize(buttonSize);
 		b9.setPreferredSize(buttonSize);
@@ -93,7 +95,7 @@ public class CalcFrame implements ActionListener {
 		b1.setPreferredSize(buttonSize);
 		neg.setPreferredSize(buttonSize);
 		b0.setPreferredSize(buttonSize);
-		fact.setPreferredSize(new Dimension(42, 55));
+		fact.setPreferredSize(buttonSize);
 		b2.setPreferredSize(buttonSize);
 		b3.setPreferredSize(buttonSize);
 		plus.setPreferredSize(buttonSize);
@@ -101,15 +103,16 @@ public class CalcFrame implements ActionListener {
 		slash.setPreferredSize(buttonSize);
 		minus.setPreferredSize(buttonSize);
 		// width: 235
-		log10.setPreferredSize(new Dimension(70, 35));
-		factorial.setPreferredSize(new Dimension(45, 35));
-		percent.setPreferredSize(new Dimension(45, 35));
-		sqrt.setPreferredSize(new Dimension(60, 35));
+		log10.setPreferredSize(new Dimension(65, 35));
+		factorial.setPreferredSize(new Dimension(40, 35));
+		percent.setPreferredSize(new Dimension(49, 35));
+		sqrt.setPreferredSize(new Dimension(65, 35));
 		
-		e.setPreferredSize(new Dimension(115, 55));
+		e.setPreferredSize(new Dimension(buttonSize));
 		Color backgroundofe = new Color(171, 255, 171);
 		Color backgroundBlue = new Color(212, 240, 255);
 		e.setBackground(backgroundofe);
+		percent.setBackground(backgroundBlue);
 		plus.setBackground(backgroundBlue);
 		fact.setBackground(backgroundBlue);
 		x.setBackground(backgroundBlue);
@@ -123,31 +126,32 @@ public class CalcFrame implements ActionListener {
 		p.add(l);
 		
 		p.add(log10);
+		p.add(sqrt);
 		p.add(factorial);
 		p.add(percent);
-		p.add(sqrt);
 		p.add(clear);
 		p.add(fact);
-		p.add(slash);
+		
 		p.add(x);
 
 		p.add(b7);
 		p.add(b8);
 		p.add(b9);
-		p.add(minus);
+		p.add(slash);
 
 		p.add(b4);
 		p.add(b5);
 		p.add(b6);
-		p.add(plus);
+		p.add(minus);
 
 		p.add(b1);
 		p.add(b2);
 		p.add(b3);
-		p.add(dec);
+		p.add(plus);
 		
 		p.add(neg);
 		p.add(b0);
+		p.add(dec);
 		p.add(e);
 
 		f.add(p);
@@ -217,6 +221,7 @@ public class CalcFrame implements ActionListener {
 			opPressed = true;
 			decPressed = false;
 			decTimes = 0;
+
 		}
 		if (ae.getSource() == sqrt) {
 			if (opPressed == false) {
@@ -321,7 +326,7 @@ public class CalcFrame implements ActionListener {
 			decTimes = 0;
 		}
 		if (ae.getSource() == e) {
-			MathContext m = new MathContext(8);
+			MathContext m = new MathContext(6);
 			if (op.equals("x")) {
 				answer = number1.multiply(number2);
 				answer = answer.round(m);
@@ -352,7 +357,9 @@ public class CalcFrame implements ActionListener {
 				double d1 = number1.doubleValue();
 				double d2 = number2.doubleValue();
 				double an = Math.pow(d1, d2);
-				labelText = "" + an;
+				answer = new BigDecimal(an);
+				answer = answer.round(m);
+				labelText = "" + answer;
 			}
 			if (op.equals("%")) {
 				double d1 = number1.doubleValue();
@@ -361,7 +368,11 @@ public class CalcFrame implements ActionListener {
 				double an = d2 * mul;
 				labelText = "" + an;
 			}
-
+			number1 = answer;
+			number2 = new BigDecimal(0);
+			opPressed = false;
+			decPressed = false;
+			decTimes = 0;
 			StringSelection stringSelection = new StringSelection(labelText);
 			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 			clipboard.setContents(stringSelection, null);
