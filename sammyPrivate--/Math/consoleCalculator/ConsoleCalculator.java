@@ -21,30 +21,27 @@ public void run()	{
 	double multiplied = number1*number2;
 
 	
-	String[] options = {"×", "÷", "+", "-", "^"};
-	int numberop = JOptionPane.showOptionDialog(null, "Choose an operation",
-	"Calculator",
-	JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, options, null);
-	if(numberop==0)	{
-		System.out.println("The answer is " + multiplied  + "");
+	System.out.println("Choose an operation: * | / | + | - | ^");
+	String op = scan.nextLine();
+	if(op.equals("*")) {
+		System.out.println("The answer is " + multiplied);
 	}
-	if(numberop==1)	{
-		if(number2==0)	{
-			System.out.println("The answer is undefined");
+	if(op.equals("/")) {
+		if(number2 == 0) {
+			System.out.println("ERROR: Dividing by 0");
 		}
-		else	{
-			System.out.println("The answer is " + divided + "");
+		else {
+			System.out.println("The answer is " + divided);
 		}
 	}
-	if(numberop==2) {
-		System.out.println("The answer is " + added + "");
+	if(op.equals("+")) {
+		System.out.println("The answer is " + added);
 	}
-	if(numberop==3)	{
-		System.out.println("The answer is " + subtracted + "");
+	if(op.equals("-")) {
+		System.out.println("The answer is " + subtracted);
 	}
-	if(numberop==4)	{
-		System.out.println("The answer is " + exponents + "");
+	if(op.equals("^")) {
+		System.out.println("The answer is " + exponents);
 	}
-	
 }
 }
