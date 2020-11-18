@@ -12,13 +12,7 @@ public class Tests {
 		
 	}
 	public static void main(String[] args) {
-		JCheckBox x = new JCheckBox("hello");
-		JFrame f = new JFrame();
-		JPanel p = new JPanel();
-		p.add(x);
-		f.add(p);
-		f.setVisible(true);
-		f.pack();
+		System.err.println("Hello World");
 	}
 	
 }

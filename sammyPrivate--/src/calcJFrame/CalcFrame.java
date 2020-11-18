@@ -13,7 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -24,6 +27,7 @@ public class CalcFrame implements ActionListener {
 	private JPanel p = new JPanel();
 	private JButton plus = new JButton("+");
 	private JButton log10 = new JButton("log10");
+	private JButton ln = new JButton("ln");
 	private JButton minus = new JButton("-");
 	private JButton x = new JButton("×");
 	private JButton sqrt = new JButton("sqrt");
@@ -46,16 +50,19 @@ public class CalcFrame implements ActionListener {
 	private JButton dec = new JButton(".");
 	private JButton neg = new JButton("n");
 	private JButton fact = new JButton("^");
-	
-	//advanced 
+	// advanced
 	private JButton choose = new JButton("choose");
 	private JButton abs = new JButton("| abs |");
-	
+
 	private JMenuBar mb = new JMenuBar();
+	private JMenuBar mbf = new JMenuBar();
 	private JMenu m = new JMenu("Calculator");
+	private JMenu file = new JMenu("File");
 	private JMenuItem basic = new JMenuItem("Basic");
 	private JMenuItem standard = new JMenuItem("Standard");
 	private JMenuItem advanced = new JMenuItem("Advanced");
+	private JMenuItem close = new JMenuItem("Exit");
+	private JMenuItem ctc = new JMenuItem("Copy answer");
 	private static String op = "";
 	static BigDecimal number1 = new BigDecimal(0);
 	static BigDecimal number2 = new BigDecimal(0);
@@ -65,18 +72,17 @@ public class CalcFrame implements ActionListener {
 	private static double decTimes = 0;
 	private static boolean opPressed = false;
 	private static boolean decPressed = false;
-	private static boolean opPressedTwice = false;
 	private static String labelText;
 	private BigDecimal answer = new BigDecimal(0);
-	
+
 	public void run() {
 
 		f.setTitle("Calculator");
 		f.setVisible(true);
-		
+
 		// ops
-		Dimension buttonSize = new Dimension(55, 55);
-		clear.setPreferredSize(new Dimension(115, 55));
+		Dimension buttonSize = new Dimension(65, 55);
+		clear.setPreferredSize(new Dimension(135, 55));
 		b7.setPreferredSize(buttonSize);
 		b8.setPreferredSize(buttonSize);
 		b9.setPreferredSize(buttonSize);
@@ -93,46 +99,73 @@ public class CalcFrame implements ActionListener {
 		x.setPreferredSize(buttonSize);
 		slash.setPreferredSize(buttonSize);
 		minus.setPreferredSize(buttonSize);
-		//advanced
-		choose.setPreferredSize(new Dimension(85, 35));
-		abs.setPreferredSize(new Dimension(75, 35));
+		// advanced
+		Dimension advancedSize = new Dimension(135, 35);
+		choose.setPreferredSize(advancedSize);
+		abs.setPreferredSize(advancedSize);
+		ln.setPreferredSize(advancedSize);
+		log10.setPreferredSize(advancedSize);
 
-		log10.setPreferredSize(new Dimension(65, 35));
-		
 		// width: 235
-		factorial.setPreferredSize(new Dimension(75, 35));
-		percent.setPreferredSize(new Dimension(75, 35));
-		sqrt.setPreferredSize(new Dimension(75, 35));
-		
+		factorial.setPreferredSize(new Dimension(88, 35));
+		percent.setPreferredSize(new Dimension(88, 35));
+		sqrt.setPreferredSize(new Dimension(89, 35));
+
 		e.setPreferredSize(new Dimension(buttonSize));
 		Color backgroundBlue = new Color(212, 240, 255);
+		Color numberColor = new Color(243, 245, 246);
+		Color defaultColor = new Color(242, 251, 255);
+		sqrt.setBackground(defaultColor);
+		factorial.setBackground(defaultColor);
+		neg.setBackground(defaultColor);
+		dec.setBackground(defaultColor);
+		abs.setBackground(defaultColor);
+		log10.setBackground(defaultColor);
+		choose.setBackground(defaultColor);
+		ln.setBackground(defaultColor);
+		b0.setBackground(numberColor);
+		b1.setBackground(numberColor);
+		b2.setBackground(numberColor);
+		b3.setBackground(numberColor);
+		b4.setBackground(numberColor);
+		b5.setBackground(numberColor);
+		b6.setBackground(numberColor);
+		b7.setBackground(numberColor);
+		b8.setBackground(numberColor);
+		b9.setBackground(numberColor);
 		e.setBackground(new Color(171, 255, 171));
 		clear.setBackground(new Color(233, 255, 233));
 		percent.setBackground(backgroundBlue);
 		plus.setBackground(backgroundBlue);
 		fact.setBackground(backgroundBlue);
+		choose.setBackground(backgroundBlue);
 		x.setBackground(backgroundBlue);
 		slash.setBackground(backgroundBlue);
 		minus.setBackground(backgroundBlue);
-		f.setPreferredSize(new Dimension(280, 485));
-		l.setPreferredSize(new Dimension(200, 55));
+		f.setPreferredSize(new Dimension(320, 455));
+		l.setPreferredSize(new Dimension(160, 55));
 		l.setHorizontalAlignment(SwingConstants.RIGHT);
 		dec.setPreferredSize(buttonSize);
 		// adding comps
+		
+		file.add(ctc);
+		file.add(close);
 		m.add(basic);
 		m.add(standard);
 		m.add(advanced);
+
 		mb.add(m);
-		
+		mbf.add(file);
 		p.add(mb);
+		p.add(mbf);
 		p.add(l);
-		
+
 		p.add(sqrt);
 		p.add(factorial);
 		p.add(percent);
 		p.add(clear);
 		p.add(fact);
-		
+
 		p.add(x);
 
 		p.add(b7);
@@ -149,14 +182,14 @@ public class CalcFrame implements ActionListener {
 		p.add(b2);
 		p.add(b3);
 		p.add(plus);
-		
+
 		p.add(neg);
 		p.add(b0);
 		p.add(dec);
 		p.add(e);
 
 		f.add(p);
-		//adding menu
+		// adding menu
 		// adding actionlisteners
 		clear.addActionListener(this);
 		plus.addActionListener(this);
@@ -186,21 +219,33 @@ public class CalcFrame implements ActionListener {
 		standard.addActionListener(this);
 		choose.addActionListener(this);
 		abs.addActionListener(this);
+		ln.addActionListener(this);
+		close.addActionListener(this);
+		ctc.addActionListener(this);
 		// op
 		f.pack();
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		if(ae.getSource()==basic) {
+		if (ae.getSource() == close) {
+			System.exit(0);
+		}
+		if (ae.getSource() == ctc) {
+			StringSelection stringSelection = new StringSelection(labelText);
+			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+			clipboard.setContents(stringSelection, null);
+		}
+		if (ae.getSource() == basic) {
 			p.removeAll();
-			clear.setPreferredSize(new Dimension(175, 55));
-			f.setPreferredSize(new Dimension(280, 450));
+			clear.setPreferredSize(new Dimension(205, 55));
+			f.setPreferredSize(new Dimension(320, 420));
 			p.add(mb);
+			p.add(mbf);
 			p.add(l);
-			
 
 			p.add(clear);
-			
+
 			p.add(x);
 
 			p.add(b7);
@@ -217,7 +262,7 @@ public class CalcFrame implements ActionListener {
 			p.add(b2);
 			p.add(b3);
 			p.add(plus);
-			
+
 			p.add(neg);
 			p.add(b0);
 			p.add(dec);
@@ -225,19 +270,20 @@ public class CalcFrame implements ActionListener {
 			f.pack();
 
 		}
-		if(ae.getSource()==standard) {
-			clear.setPreferredSize(new Dimension(115, 55));
-			f.setPreferredSize(new Dimension(280, 485));
+		if (ae.getSource() == standard) {
+			clear.setPreferredSize(new Dimension(135, 55));
+			f.setPreferredSize(new Dimension(320, 455));
 			p.removeAll();
 			p.add(mb);
+			p.add(mbf);
 			p.add(l);
-			
+
 			p.add(sqrt);
 			p.add(factorial);
 			p.add(percent);
 			p.add(clear);
 			p.add(fact);
-			
+
 			p.add(x);
 
 			p.add(b7);
@@ -254,28 +300,31 @@ public class CalcFrame implements ActionListener {
 			p.add(b2);
 			p.add(b3);
 			p.add(plus);
-			
+
 			p.add(neg);
 			p.add(b0);
 			p.add(dec);
 			p.add(e);
 			f.pack();
 		}
-		if(ae.getSource()==advanced) {
-			f.setPreferredSize(new Dimension(280, 520));
+		if (ae.getSource() == advanced) {
+			clear.setPreferredSize(new Dimension(135, 55));
+			f.setPreferredSize(new Dimension(320, 530));
 			p.removeAll();
 			p.add(mb);
+			p.add(mbf);
 			p.add(l);
 			p.add(log10);
-			p.add(choose);
+			p.add(ln);
 			p.add(abs);
-			p.add(log10);
+			p.add(choose);
+
 			p.add(sqrt);
 			p.add(factorial);
 			p.add(percent);
 			p.add(clear);
 			p.add(fact);
-			
+
 			p.add(x);
 
 			p.add(b7);
@@ -292,7 +341,7 @@ public class CalcFrame implements ActionListener {
 			p.add(b2);
 			p.add(b3);
 			p.add(plus);
-			
+
 			p.add(neg);
 			p.add(b0);
 			p.add(dec);
@@ -357,9 +406,6 @@ public class CalcFrame implements ActionListener {
 			}
 			l.setText(labelText);
 			f.pack();
-			StringSelection stringSelection = new StringSelection(labelText);
-			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-			clipboard.setContents(stringSelection, null);
 		}
 		if (ae.getSource() == sqrt) {
 			if (opPressed == false) {
@@ -376,9 +422,7 @@ public class CalcFrame implements ActionListener {
 			}
 			l.setText(labelText);
 			f.pack();
-			StringSelection stringSelection = new StringSelection(labelText);
-			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-			clipboard.setContents(stringSelection, null);
+
 		}
 		if (ae.getSource() == factorial) {
 			if (opPressed == false) {
@@ -395,9 +439,6 @@ public class CalcFrame implements ActionListener {
 			}
 			l.setText(labelText);
 			f.pack();
-			StringSelection stringSelection = new StringSelection(labelText);
-			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-			clipboard.setContents(stringSelection, null);
 		}
 		if (ae.getSource() == log10) {
 			if (opPressed == false) {
@@ -414,9 +455,22 @@ public class CalcFrame implements ActionListener {
 			}
 			l.setText(labelText);
 			f.pack();
-			StringSelection stringSelection = new StringSelection(labelText);
-			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-			clipboard.setContents(stringSelection, null);
+		}
+		if (ae.getSource() == ln) {
+			if (opPressed == false) {
+				double n1 = number1.doubleValue();
+				n1 = Math.log(n1);
+				number1 = new BigDecimal(n1);
+				labelText = "" + n1;
+			}
+			if (opPressed == true) {
+				double n2 = number2.doubleValue();
+				n2 = Math.log(n2);
+				number2 = new BigDecimal(n2);
+				labelText = "" + n2;
+			}
+			l.setText(labelText);
+			f.pack();
 		}
 		if (ae.getSource() == fact) {
 			op = "^";
@@ -508,15 +562,14 @@ public class CalcFrame implements ActionListener {
 				labelText = "" + an;
 				answer = new BigDecimal(an);
 			}
-			if(op.equals("c")) {
+			if (op.equals("c")) {
 				double n = number1.doubleValue();
 				double k = number2.doubleValue();
 				double factorialn = factorial(n);
 				double factorialk = factorial(k);
-				double factorialnmk = factorial(n-k);
-			
-				double an = (factorialn)/((factorialk)*(factorialnmk));
+				double factorialnmk = factorial(n - k);
 
+				double an = (factorialn) / ((factorialk) * (factorialnmk));
 				an = Math.round(an);
 				labelText = "" + an;
 				answer = new BigDecimal(an);
@@ -526,11 +579,9 @@ public class CalcFrame implements ActionListener {
 			opPressed = false;
 			decPressed = false;
 			decTimes = 0;
-			StringSelection stringSelection = new StringSelection(labelText);
-			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-			clipboard.setContents(stringSelection, null);
 			l.setText(labelText);
 			f.pack();
+
 		}
 		if (ae.getSource() == clear) {
 			number1 = new BigDecimal(0);
