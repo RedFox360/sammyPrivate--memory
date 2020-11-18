@@ -11,6 +11,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -93,11 +94,15 @@ public class CalcFrame implements ActionListener {
 	private BigDecimal answer = new BigDecimal(0);
 
 	public void run() {
+		
 		info.setVisible(false);
+	      l.setFont(new Font("Open Sans", Font.PLAIN, 18));
+	      setFonts();
 		emptyBorder = BorderFactory.createEmptyBorder();
 		p = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 2));
 		f.setTitle("Calculator");
 		f.setVisible(true);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pinfo.add(linfo);
 		linfo.setText("This is a simple Java calculator. Use the 'Calculator' menu to switch between modes"
 				+ " and use the File menu to activate simple actions."
@@ -112,28 +117,28 @@ public class CalcFrame implements ActionListener {
 		// ops
 		clear.setPreferredSize(new Dimension(135, 65));
 		// advanced
+		
 		log10.setBackground(defaultColor);
 		ln.setBackground(defaultColor);
 		abs.setBackground(defaultColor);
 		sqrt.setBackground(defaultColor);
 		factorial.setBackground(defaultColor);
-		Dimension advancedSize = new Dimension(135, 35);
-		choose.setPreferredSize(advancedSize);
-		abs.setPreferredSize(advancedSize);
-		Dimension topAdvancedSize = new Dimension(90, 35);
-		ln.setPreferredSize(topAdvancedSize);
-		log10.setPreferredSize(topAdvancedSize);
-		cubeRoot.setPreferredSize(topAdvancedSize);
+		choose.setPreferredSize(new Dimension(135, 35));
+		abs.setPreferredSize(new Dimension(134, 35));
+		ln.setPreferredSize(new Dimension(89, 35));
+		log10.setPreferredSize(new Dimension(88, 35));
+		cubeRoot.setPreferredSize(new Dimension(89, 35));
 		mb.setBorder(emptyBorder);
 		mbf.setBorder(emptyBorder);
 		// width: 235
-		factorial.setPreferredSize(new Dimension(88, 35));
+		factorial.setPreferredSize(new Dimension(89, 35));
 		percent.setPreferredSize(new Dimension(88, 35));
 		sqrt.setPreferredSize(new Dimension(89, 35));
 
 		e.setPreferredSize(new Dimension(buttonSize));
-		mb.setBackground(numberColor);
-		mbf.setBackground(numberColor);
+		p.setOpaque(false);
+		mb.setOpaque(false);
+		mbf.setOpaque(false);
 		e.setBackground(new Color(171, 255, 171));
 		clear.setBackground(new Color(233, 255, 233));
 		choose.setBackground(backgroundBlue);
@@ -681,7 +686,30 @@ public class CalcFrame implements ActionListener {
 		j.setBackground(background);
 		j.setPreferredSize(d);
 		j.addActionListener(this);
+		j.setFont(new Font("Poppins", Font.PLAIN, 15));
 		j.setBorder(emptyBorder);
 		return j;
+	}
+	private void setFonts() {
+		clear.setFont(new Font("Poppins", Font.PLAIN, 15));
+		choose.setFont(new Font("Poppins", Font.PLAIN, 15));
+		factorial.setFont(new Font("Poppins", Font.PLAIN, 15));
+		sqrt.setFont(new Font("Poppins", Font.PLAIN, 15));
+		percent.setFont(new Font("Poppins", Font.PLAIN, 15));
+		log10.setFont(new Font("Poppins", Font.PLAIN, 15));
+		ln.setFont(new Font("Poppins", Font.PLAIN, 15));
+		cubeRoot.setFont(new Font("Poppins", Font.PLAIN, 15));
+		abs.setFont(new Font("Poppins", Font.PLAIN, 15));
+		mb.setFont(new Font("Poppins", Font.PLAIN, 15));
+		mbf.setFont(new Font("Poppins", Font.PLAIN, 15));
+		standard.setFont(new Font("Poppins", Font.PLAIN, 14));
+		advanced.setFont(new Font("Poppins", Font.PLAIN, 14));
+		basic.setFont(new Font("Poppins", Font.PLAIN, 14));
+		close.setFont(new Font("Poppins", Font.PLAIN, 14));
+		closeInfo.setFont(new Font("Poppins", Font.PLAIN, 15));
+		ctc.setFont(new Font("Poppins", Font.PLAIN, 14));
+		infom.setFont(new Font("Poppins", Font.PLAIN, 14));
+		m.setFont(new Font("Poppins", Font.PLAIN, 15));
+		file.setFont(new Font("Poppins", Font.PLAIN, 15));
 	}
 }
