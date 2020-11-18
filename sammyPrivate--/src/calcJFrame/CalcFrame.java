@@ -69,9 +69,8 @@ public class CalcFrame implements ActionListener {
 	Border emptyBorder;
 	private JButton choose = new JButton("choose");
 	private JButton closeInfo = new JButton("Close");
-	private JButton abs = new JButton("| abs |");
+	private JButton abs = new JButton("| x |");
 	private JMenuBar mb = new JMenuBar();
-	private JMenuBar mbf = new JMenuBar();
 	private JMenu m = new JMenu("Calculator");
 	private JMenu file = new JMenu("File");
 	private JMenuItem basic = new JMenuItem("Basic");
@@ -83,7 +82,6 @@ public class CalcFrame implements ActionListener {
 	private static String op = "";
 	static BigDecimal number1 = new BigDecimal(0);
 	static BigDecimal number2 = new BigDecimal(0);
-	static BigDecimal number3 = new BigDecimal(0);
 
 	private static double dnumber1;
 	private static double dnumber2;
@@ -94,12 +92,11 @@ public class CalcFrame implements ActionListener {
 	private BigDecimal answer = new BigDecimal(0);
 
 	public void run() {
-		
 		info.setVisible(false);
-	      l.setFont(new Font("Open Sans", Font.PLAIN, 18));
 	      setFonts();
 		emptyBorder = BorderFactory.createEmptyBorder();
 		p = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 2));
+		p.setOpaque(false);
 		f.setTitle("Calculator");
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,7 +126,6 @@ public class CalcFrame implements ActionListener {
 		log10.setPreferredSize(new Dimension(88, 35));
 		cubeRoot.setPreferredSize(new Dimension(89, 35));
 		mb.setBorder(emptyBorder);
-		mbf.setBorder(emptyBorder);
 		// width: 235
 		factorial.setPreferredSize(new Dimension(89, 35));
 		percent.setPreferredSize(new Dimension(88, 35));
@@ -138,7 +134,6 @@ public class CalcFrame implements ActionListener {
 		e.setPreferredSize(new Dimension(buttonSize));
 		p.setOpaque(false);
 		mb.setOpaque(false);
-		mbf.setOpaque(false);
 		e.setBackground(new Color(171, 255, 171));
 		clear.setBackground(new Color(233, 255, 233));
 		choose.setBackground(backgroundBlue);
@@ -158,9 +153,8 @@ public class CalcFrame implements ActionListener {
 		m.add(advanced);
 
 		mb.add(m);
-		mbf.add(file);
+		mb.add(file);
 		p.add(mb);
-		p.add(mbf);
 		p.add(l);
 
 		p.add(sqrt);
@@ -251,7 +245,6 @@ public class CalcFrame implements ActionListener {
 			x.setPreferredSize(new Dimension(65, 35));
 			f.setPreferredSize(new Dimension(290, 430));
 			p.add(mb);
-			p.add(mbf);
 			p.add(l);
 
 			p.add(clear);
@@ -286,7 +279,6 @@ public class CalcFrame implements ActionListener {
 			x.setPreferredSize(buttonSize);
 			p.removeAll();
 			p.add(mb);
-			p.add(mbf);
 			p.add(l);
 
 			p.add(sqrt);
@@ -324,7 +316,6 @@ public class CalcFrame implements ActionListener {
 			x.setPreferredSize(buttonSize);
 			p.removeAll();
 			p.add(mb);
-			p.add(mbf);
 			p.add(l);
 			p.add(log10);
 			p.add(ln);
@@ -686,30 +677,44 @@ public class CalcFrame implements ActionListener {
 		j.setBackground(background);
 		j.setPreferredSize(d);
 		j.addActionListener(this);
-		j.setFont(new Font("Poppins", Font.PLAIN, 15));
+		j.setFont(new Font("Consolas", Font.PLAIN, 14));
 		j.setBorder(emptyBorder);
 		return j;
 	}
 	private void setFonts() {
-		clear.setFont(new Font("Poppins", Font.PLAIN, 15));
-		choose.setFont(new Font("Poppins", Font.PLAIN, 15));
-		factorial.setFont(new Font("Poppins", Font.PLAIN, 15));
-		sqrt.setFont(new Font("Poppins", Font.PLAIN, 15));
-		percent.setFont(new Font("Poppins", Font.PLAIN, 15));
-		log10.setFont(new Font("Poppins", Font.PLAIN, 15));
-		ln.setFont(new Font("Poppins", Font.PLAIN, 15));
-		cubeRoot.setFont(new Font("Poppins", Font.PLAIN, 15));
-		abs.setFont(new Font("Poppins", Font.PLAIN, 15));
-		mb.setFont(new Font("Poppins", Font.PLAIN, 15));
-		mbf.setFont(new Font("Poppins", Font.PLAIN, 15));
-		standard.setFont(new Font("Poppins", Font.PLAIN, 14));
-		advanced.setFont(new Font("Poppins", Font.PLAIN, 14));
-		basic.setFont(new Font("Poppins", Font.PLAIN, 14));
-		close.setFont(new Font("Poppins", Font.PLAIN, 14));
-		closeInfo.setFont(new Font("Poppins", Font.PLAIN, 15));
-		ctc.setFont(new Font("Poppins", Font.PLAIN, 14));
-		infom.setFont(new Font("Poppins", Font.PLAIN, 14));
-		m.setFont(new Font("Poppins", Font.PLAIN, 15));
-		file.setFont(new Font("Poppins", Font.PLAIN, 15));
+		linfo.setFont(new Font("Consolas", Font.PLAIN, 13));
+	      l.setFont(new Font("Consolas", Font.PLAIN, 18));
+		clear.setFont(new Font("Consolas", Font.PLAIN, 14));
+		choose.setFont(new Font("Consolas", Font.PLAIN, 14));
+		factorial.setFont(new Font("Consolas", Font.PLAIN, 14));
+		sqrt.setFont(new Font("Consolas", Font.PLAIN, 14));
+		percent.setFont(new Font("Consolas", Font.PLAIN, 14));
+		log10.setFont(new Font("Consolas", Font.PLAIN, 14));
+		ln.setFont(new Font("Consolas", Font.PLAIN, 14));
+		cubeRoot.setFont(new Font("Consolas", Font.PLAIN, 14));
+		abs.setFont(new Font("Consolas", Font.PLAIN, 14));
+		mb.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		standard.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		advanced.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		basic.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		close.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		closeInfo.setFont(new Font("Consolas", Font.PLAIN, 14));
+		ctc.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		infom.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		m.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		file.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+	}
+	private void transparentNums() {
+		b0.setOpaque(false);
+		b1.setOpaque(false);
+		b2.setOpaque(false);
+		b3.setOpaque(false);
+		b4.setOpaque(false);
+		b5.setOpaque(false);
+		b6.setOpaque(false);
+		b7.setOpaque(false);
+		b8.setOpaque(false);
+		b9.setOpaque(false);
+		b0.setOpaque(false);
 	}
 }
