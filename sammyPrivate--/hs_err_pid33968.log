@@ -1,0 +1,48 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 32744 bytes for ChunkPool::allocate
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+#     placed in the first 32GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (t:/workspace/open/src/hotspot/share/memory/arena.cpp:80), pid=33968, tid=35324
+#
+# JRE version: Java(TM) SE Runtime Environment (13.0.2+8) (build 13.0.2+8)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (13.0.2+8, mixed mode, sharing, tiered, compressed oops, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Dfile.encoding=Cp1252 --module-path=C:\Users\samee\git\sammyPrivate--memory(3)\sammyPrivate--\bin -Djdk.module.main=sammyPrivate sammyPrivate/calcJFrame.CalcFrameRunner
+
+Host: AMD Ryzen 7 1700 Eight-Core Processor          , 16 cores, 15G,  Windows 10 , 64 bit Build 19041 (10.0.19041.546)
+Time: Wed Nov 18 12:02:44 2020 Pacific Standard Time elapsed time: 10126 seconds (0d 2h 48m 46s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000001bc4f444800):  JavaThread "C1 CompilerThread0" daemon [_thread_in_native, id=35324, stack(0x00000081f0e00000,0x00000081f0f00000)]
+
+
+Current CompileTask:
+C1:10126061  846       3      
+[error occurred during error reporting (printing current compile task), id 0xe0000001, Out of Memory Error (t:/workspace/open/src/hotspot/share/memory/arena.cpp:80)]
+
+Stack: [0x00000081f0e00000,0x00000081f0f00000]
+
+[error occurred during error reporting (printing native stack), id 0xc00000fd, EXCEPTION_STACK_OVERFLOW (0xc00000fd) at pc=0x00007ff8096f94c7]
+
+
