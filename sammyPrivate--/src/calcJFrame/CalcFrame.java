@@ -142,9 +142,15 @@ public class CalcFrame implements ActionListener {
 		cubeRoot.setPreferredSize(new Dimension(108, 35));
 		dropdown.setPreferredSize(new Dimension(80, 15));
 		mb.setBorder(emptyBorder);
+		mplus.setBorder(emptyBorder);
+		memory.setBorder(emptyBorder);
+		mplus.setBackground(numberColor);
+		memory.setBackground(numberColor);
 		// width: 235
+		mplus.setPreferredSize(new Dimension(53, 35));
+		memory.setPreferredSize(new Dimension(53, 35));
 		factorial.setPreferredSize(new Dimension(53, 35));
-		percent.setPreferredSize(new Dimension(53, 35));
+		percent.setPreferredSize(new Dimension(52, 35));
 		sqrt.setPreferredSize(new Dimension(107, 35));
 		
 		e.setPreferredSize(new Dimension(buttonSize));
@@ -162,10 +168,6 @@ public class CalcFrame implements ActionListener {
 		file.add(ctc);
 		file.add(infom);
 		file.add(close);
-		mplus.setBackground(numberColor);
-		memory.setBackground(numberColor);
-		mplus.setBorder(emptyBorder);
-		memory.setBorder(emptyBorder);
 		memoryMenu.setBorder(emptyBorder);
 		memoryMenu.add(removeLastItem);
 		memoryMenu.add(clearMemory);
@@ -409,7 +411,7 @@ public class CalcFrame implements ActionListener {
 		if (dropdown.getSelectedItem().toString().equals("RNG")) {
 			inRand = true;
 			p.removeAll();
-			f.setPreferredSize(new Dimension(650, 80));
+			f.setPreferredSize(new Dimension(700, 80));
 			p.setLayout(new FlowLayout(FlowLayout.CENTER, 2, 2));
 			p.add(dropdown);
 			p.add(mb);
