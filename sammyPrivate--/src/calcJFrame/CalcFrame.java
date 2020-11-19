@@ -2,8 +2,10 @@ package calcJFrame;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import java.awt.datatransfer.StringSelection;
 import java.awt.Toolkit;
@@ -18,6 +20,7 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -29,15 +32,23 @@ import javax.swing.JMenuItem;
 
 @SuppressWarnings("unused")
 public class CalcFrame implements ActionListener {
-	private static Dimension buttonSize = new Dimension(65, 65);
+	ArrayList<BigDecimal> answersList = new ArrayList<BigDecimal>();
+	private static Dimension buttonSize = new Dimension(80, 65);
 	private static Color backgroundBlue = new Color(212, 240, 255);
 	private static Color numberColor = new Color(243, 245, 246);
 	private static Color defaultColor = new Color(242, 251, 255);
-
+	private JTextField randomMin = new JTextField();
+	private JTextField randomMax = new JTextField();
+	private JButton randGen = new JButton("Generate");
+	private JButton randSet = new JButton("Reset");
+	private JButton mplus = new JButton("M+");
+	private JButton memory = new JButton("M");
 	public static JFrame f = new JFrame();
+	private static boolean inRand = false;
 	public static JFrame info = new JFrame();
 	private JPanel pinfo = new JPanel();
 	private static JLabel linfo = new JLabel();
+	private JLabel randMinL, randMaxL;
 	private JPanel p;
 	private JButton plus = createButton("+", backgroundBlue, buttonSize);
 	private JButton log10 = new JButton("log10");
@@ -49,6 +60,8 @@ public class CalcFrame implements ActionListener {
 	private JButton e = new JButton("=");
 	private static JLabel l = new JLabel();
 	private JButton clear = new JButton("clear");
+	private static String[] menus = { "Standard", "Basic", "Advanced", "RNG" };
+	private JComboBox dropdown = new JComboBox(menus);
 	private JButton factorial = new JButton("!");
 	private JButton cubeRoot = new JButton("3rt");
 	private JButton percent = createButton("%", backgroundBlue, buttonSize);
@@ -71,13 +84,12 @@ public class CalcFrame implements ActionListener {
 	private JButton closeInfo = new JButton("Close");
 	private JButton abs = new JButton("| x |");
 	private JMenuBar mb = new JMenuBar();
-	private JMenu m = new JMenu("Calculator");
 	private JMenu file = new JMenu("File");
-	private JMenuItem basic = new JMenuItem("Basic");
-	private JMenuItem standard = new JMenuItem("Standard");
-	private JMenuItem advanced = new JMenuItem("Advanced");
+	private JMenu memoryMenu = new JMenu("Memory");
 	private JMenuItem close = new JMenuItem("Exit");
 	private JMenuItem infom = new JMenuItem("Info");
+	private JMenuItem clearMemory = new JMenuItem("MC");
+	private JMenuItem removeLastItem = new JMenuItem("M-");
 	private JMenuItem ctc = new JMenuItem("Copy answer");
 	private static String op = "";
 	static BigDecimal number1 = new BigDecimal(0);
@@ -92,8 +104,9 @@ public class CalcFrame implements ActionListener {
 	private BigDecimal answer = new BigDecimal(0);
 
 	public void run() {
+		random();
 		info.setVisible(false);
-	      setFonts();
+		setFonts();
 		emptyBorder = BorderFactory.createEmptyBorder();
 		p = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 2));
 		p.setOpaque(false);
@@ -112,25 +125,28 @@ public class CalcFrame implements ActionListener {
 		info.add(pinfo);
 		l.setText("");
 		// ops
-		clear.setPreferredSize(new Dimension(135, 65));
+		clear.setPreferredSize(new Dimension(162, 65));
 		// advanced
-		
+
 		log10.setBackground(defaultColor);
 		ln.setBackground(defaultColor);
 		abs.setBackground(defaultColor);
 		sqrt.setBackground(defaultColor);
 		factorial.setBackground(defaultColor);
-		choose.setPreferredSize(new Dimension(135, 35));
-		abs.setPreferredSize(new Dimension(134, 35));
-		ln.setPreferredSize(new Dimension(89, 35));
-		log10.setPreferredSize(new Dimension(88, 35));
-		cubeRoot.setPreferredSize(new Dimension(89, 35));
+		choose.setPreferredSize(new Dimension(162, 35));
+		abs.setPreferredSize(new Dimension(162, 35));
+		mplus.setPreferredSize(new Dimension(53, 35));
+		memory.setPreferredSize(new Dimension(53, 35));
+		ln.setPreferredSize(new Dimension(107, 35));
+		log10.setPreferredSize(new Dimension(107, 35));
+		cubeRoot.setPreferredSize(new Dimension(108, 35));
+		dropdown.setPreferredSize(new Dimension(80, 15));
 		mb.setBorder(emptyBorder);
 		// width: 235
-		factorial.setPreferredSize(new Dimension(89, 35));
-		percent.setPreferredSize(new Dimension(88, 35));
-		sqrt.setPreferredSize(new Dimension(89, 35));
-
+		factorial.setPreferredSize(new Dimension(53, 35));
+		percent.setPreferredSize(new Dimension(53, 35));
+		sqrt.setPreferredSize(new Dimension(107, 35));
+		
 		e.setPreferredSize(new Dimension(buttonSize));
 		p.setOpaque(false);
 		mb.setOpaque(false);
@@ -138,27 +154,31 @@ public class CalcFrame implements ActionListener {
 		clear.setBackground(new Color(233, 255, 233));
 		choose.setBackground(backgroundBlue);
 		cubeRoot.setBackground(defaultColor);
-		f.setPreferredSize(new Dimension(290, 500));
-		l.setPreferredSize(new Dimension(235, 55));
+		f.setPreferredSize(new Dimension(350, 500));
+		l.setPreferredSize(new Dimension(300, 55));
 		l.setHorizontalAlignment(SwingConstants.RIGHT);
 		dec.setPreferredSize(buttonSize);
 		// adding comps
-
 		file.add(ctc);
 		file.add(infom);
 		file.add(close);
-
-		m.add(basic);
-		m.add(standard);
-		m.add(advanced);
-
-		mb.add(m);
+		mplus.setBackground(numberColor);
+		memory.setBackground(numberColor);
+		mplus.setBorder(emptyBorder);
+		memory.setBorder(emptyBorder);
+		memoryMenu.setBorder(emptyBorder);
+		memoryMenu.add(removeLastItem);
+		memoryMenu.add(clearMemory);
 		mb.add(file);
+		mb.add(memoryMenu);
+		p.add(dropdown);
 		p.add(mb);
 		p.add(l);
-
+		
 		p.add(sqrt);
 		p.add(factorial);
+		p.add(mplus);
+		p.add(memory);
 		p.add(percent);
 		p.add(clear);
 		p.add(fact);
@@ -193,11 +213,8 @@ public class CalcFrame implements ActionListener {
 		log10.addActionListener(this);
 		factorial.addActionListener(this);
 		sqrt.addActionListener(this);
-
+		randSet.addActionListener(this);
 		closeInfo.setBackground(defaultColor);
-		advanced.addActionListener(this);
-		basic.addActionListener(this);
-		standard.addActionListener(this);
 		choose.addActionListener(this);
 		abs.addActionListener(this);
 		ln.addActionListener(this);
@@ -205,7 +222,14 @@ public class CalcFrame implements ActionListener {
 		cubeRoot.addActionListener(this);
 		closeInfo.addActionListener(this);
 		ctc.addActionListener(this);
+		mplus.addActionListener(this);
+		memory.addActionListener(this);
+		memoryMenu.addActionListener(this);
+		clearMemory.addActionListener(this);
+		removeLastItem.addActionListener(this);
+		dropdown.addActionListener(this);
 		infom.addActionListener(this);
+		randGen.addActionListener(this);
 		clear.setBorder(emptyBorder);
 		e.setBorder(emptyBorder);
 		log10.setBorder(emptyBorder);
@@ -235,20 +259,33 @@ public class CalcFrame implements ActionListener {
 			System.exit(0);
 		}
 		if (ae.getSource() == ctc) {
-			StringSelection stringSelection = new StringSelection(labelText);
-			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-			clipboard.setContents(stringSelection, null);
+			if (inRand == false) {
+				StringSelection stringSelection = new StringSelection(labelText);
+				Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+				clipboard.setContents(stringSelection, null);
+			}
+			if (inRand == true) {
+				StringSelection stringSelection = new StringSelection(randGen.getText());
+				Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+				clipboard.setContents(stringSelection, null);
+			}
 		}
-		if (ae.getSource() == basic) {
+		if (dropdown.getSelectedItem().toString().equals("Basic")) {
 			p.removeAll();
-			clear.setPreferredSize(new Dimension(200, 35));
-			x.setPreferredSize(new Dimension(65, 35));
-			f.setPreferredSize(new Dimension(290, 430));
+			inRand = false;
+			clear.setPreferredSize(new Dimension(140, 35));
+			mplus.setPreferredSize(new Dimension(50, 35));
+			memory.setPreferredSize(new Dimension(50, 35));
+			x.setPreferredSize(new Dimension(80, 35));
+			f.setPreferredSize(new Dimension(350, 430));
+			p.setLayout(new FlowLayout(FlowLayout.LEFT, 2, 2));
+			p.add(dropdown);
 			p.add(mb);
 			p.add(l);
 
 			p.add(clear);
-
+			p.add(mplus);
+			p.add(memory);
 			p.add(x);
 
 			p.add(b7);
@@ -273,20 +310,33 @@ public class CalcFrame implements ActionListener {
 			f.pack();
 
 		}
-		if (ae.getSource() == standard) {
-			clear.setPreferredSize(new Dimension(135, 65));
-			f.setPreferredSize(new Dimension(290, 500));
+		if (ae.getSource() == randGen) {
+			generateRand();
+		}
+		if (ae.getSource() == randSet) {
+			randomMin.setText("");
+			randomMax.setText("");
+			randGen.setText("Generate");
+		}
+		if (dropdown.getSelectedItem().toString().equals("Standard")) {
+			inRand = false;
+			clear.setPreferredSize(new Dimension(162, 65));
+			f.setPreferredSize(new Dimension(350, 500));
 			x.setPreferredSize(buttonSize);
 			p.removeAll();
+			p.setLayout(new FlowLayout(FlowLayout.LEFT, 2, 2));
+			p.add(dropdown);
 			p.add(mb);
 			p.add(l);
 
 			p.add(sqrt);
 			p.add(factorial);
+			p.add(mplus);
+			p.add(memory);
 			p.add(percent);
 			p.add(clear);
 			p.add(fact);
-
+			
 			p.add(x);
 
 			p.add(b7);
@@ -310,11 +360,14 @@ public class CalcFrame implements ActionListener {
 			p.add(e);
 			f.pack();
 		}
-		if (ae.getSource() == advanced) {
-			clear.setPreferredSize(new Dimension(135, 65));
-			f.setPreferredSize(new Dimension(295, 575));
+		if (dropdown.getSelectedItem().toString().equals("Advanced")) {
+			inRand = false;
+			clear.setPreferredSize(new Dimension(162, 65));
+			f.setPreferredSize(new Dimension(350, 575));
 			x.setPreferredSize(buttonSize);
 			p.removeAll();
+			p.setLayout(new FlowLayout(FlowLayout.LEFT, 2, 2));
+			p.add(dropdown);
 			p.add(mb);
 			p.add(l);
 			p.add(log10);
@@ -325,6 +378,8 @@ public class CalcFrame implements ActionListener {
 
 			p.add(sqrt);
 			p.add(factorial);
+			p.add(mplus);
+			p.add(memory);
 			p.add(percent);
 			p.add(clear);
 			p.add(fact);
@@ -340,7 +395,6 @@ public class CalcFrame implements ActionListener {
 			p.add(b5);
 			p.add(b6);
 			p.add(minus);
-
 			p.add(b1);
 			p.add(b2);
 			p.add(b3);
@@ -350,6 +404,21 @@ public class CalcFrame implements ActionListener {
 			p.add(b0);
 			p.add(dec);
 			p.add(e);
+			f.pack();
+		}
+		if (dropdown.getSelectedItem().toString().equals("RNG")) {
+			inRand = true;
+			p.removeAll();
+			f.setPreferredSize(new Dimension(650, 80));
+			p.setLayout(new FlowLayout(FlowLayout.CENTER, 2, 2));
+			p.add(dropdown);
+			p.add(mb);
+			p.add(randMinL);
+			p.add(randomMin);
+			p.add(randMaxL);
+			p.add(randomMax);
+			p.add(randGen);
+			p.add(randSet);
 			f.pack();
 		}
 		if (ae.getSource() == b7) {
@@ -372,6 +441,12 @@ public class CalcFrame implements ActionListener {
 		}
 		if (ae.getSource() == b3) {
 			setn(3);
+		}
+		if (ae.getSource() == clearMemory) {
+			answersList.clear();
+		}
+		if (ae.getSource() == removeLastItem) {
+			answersList.remove(answersList.size()-1);
 		}
 		if (ae.getSource() == b2) {
 			setn(2);
@@ -489,6 +564,14 @@ public class CalcFrame implements ActionListener {
 				number2 = new BigDecimal(n2);
 				labelText = "" + n2;
 			}
+			l.setText(labelText);
+			f.pack();
+		}
+		if (ae.getSource() == mplus) {
+			answersList.add(answer);
+		}
+		if (ae.getSource() == memory) {
+			labelText = "Memory: " + answersList.toString();
 			l.setText(labelText);
 			f.pack();
 		}
@@ -677,33 +760,39 @@ public class CalcFrame implements ActionListener {
 		j.setBackground(background);
 		j.setPreferredSize(d);
 		j.addActionListener(this);
-		j.setFont(new Font("Consolas", Font.PLAIN, 14));
+		j.setFont(new Font("Consolas", Font.PLAIN, 16));
 		j.setBorder(emptyBorder);
 		return j;
 	}
+
 	private void setFonts() {
 		linfo.setFont(new Font("Consolas", Font.PLAIN, 13));
-	      l.setFont(new Font("Consolas", Font.PLAIN, 18));
-		clear.setFont(new Font("Consolas", Font.PLAIN, 14));
+		l.setFont(new Font("Consolas", Font.PLAIN, 16));
+		clear.setFont(new Font("Consolas", Font.PLAIN, 16));
 		choose.setFont(new Font("Consolas", Font.PLAIN, 14));
-		factorial.setFont(new Font("Consolas", Font.PLAIN, 14));
-		sqrt.setFont(new Font("Consolas", Font.PLAIN, 14));
-		percent.setFont(new Font("Consolas", Font.PLAIN, 14));
+		factorial.setFont(new Font("Consolas", Font.PLAIN, 16));
+		sqrt.setFont(new Font("Consolas", Font.PLAIN, 16));
+		percent.setFont(new Font("Consolas", Font.PLAIN, 16));
 		log10.setFont(new Font("Consolas", Font.PLAIN, 14));
 		ln.setFont(new Font("Consolas", Font.PLAIN, 14));
 		cubeRoot.setFont(new Font("Consolas", Font.PLAIN, 14));
+		mplus.setFont(new Font("Consolas", Font.PLAIN, 14));
+		memory.setFont(new Font("Consolas", Font.PLAIN, 14));
 		abs.setFont(new Font("Consolas", Font.PLAIN, 14));
 		mb.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		standard.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		advanced.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		basic.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		close.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		close.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		closeInfo.setFont(new Font("Consolas", Font.PLAIN, 14));
-		ctc.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		infom.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		m.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		ctc.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		infom.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		file.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		memoryMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		clearMemory.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		removeLastItem.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		dropdown.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		dropdown.setUI(new BasicComboBoxUI());
+		dropdown.setOpaque(false);
 	}
+
 	private void transparentNums() {
 		b0.setOpaque(false);
 		b1.setOpaque(false);
@@ -716,5 +805,35 @@ public class CalcFrame implements ActionListener {
 		b8.setOpaque(false);
 		b9.setOpaque(false);
 		b0.setOpaque(false);
+	}
+
+	private void random() {
+		randomMin.setBorder(emptyBorder);
+		randomMax.setBorder(emptyBorder);
+		randGen.setBorder(emptyBorder);
+		randSet.setBorder(emptyBorder);
+		randSet.setBackground(defaultColor);
+		randomMin.setPreferredSize(new Dimension(100, 20));
+		randomMax.setPreferredSize(new Dimension(100, 20));
+		randGen.setPreferredSize(new Dimension(100, 40));
+		randSet.setPreferredSize(new Dimension(100, 40));
+		randomMin.setFont(new Font("Consolas", Font.PLAIN, 14));
+		randomMax.setFont(new Font("Consolas", Font.PLAIN, 14));
+		randGen.setFont(new Font("Consolas", Font.PLAIN, 14));
+		randSet.setFont(new Font("Consolas", Font.PLAIN, 14));
+		randGen.setBackground(defaultColor);
+		randMinL = new JLabel(" Min");
+		randMaxL = new JLabel(" Max");
+		randMinL.setFont(new Font("Consolas", Font.PLAIN, 14));
+		randMaxL.setFont(new Font("Consolas", Font.PLAIN, 14));
+	}
+
+	private void generateRand() {
+		Random r = new Random();
+		int min = Integer.parseInt(randomMin.getText());
+		int max = Integer.parseInt(randomMax.getText());
+		int rsan = r.nextInt(max - min + 1) + min;
+		randGen.setText("" + rsan);
+		f.pack();
 	}
 }
