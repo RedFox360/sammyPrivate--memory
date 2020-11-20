@@ -11,6 +11,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -32,7 +33,8 @@ import javax.swing.JMenuItem;
 
 @SuppressWarnings("unused")
 public class CalcFrame implements ActionListener {
-	ArrayList<BigDecimal> answersList = new ArrayList<BigDecimal>();
+	ArrayList<Double> answersList = new ArrayList<Double>();
+	ArrayList<Double> history = new ArrayList<Double>();
 	private static Dimension buttonSize = new Dimension(80, 65);
 	private static Color backgroundBlue = new Color(212, 240, 255);
 	private static Color numberColor = new Color(243, 245, 246);
@@ -41,15 +43,29 @@ public class CalcFrame implements ActionListener {
 	private JTextField randomMax = new JTextField();
 	private JButton randGen = new JButton("Generate");
 	private JButton randSet = new JButton("Reset");
+	private JButton rollDice = new JButton("Roll A Die");
+	private JButton roll2Dice = createButton("Roll 2 Dice", defaultColor, new Dimension(100, 40));
 	private JButton mplus = new JButton("M+");
 	private JButton memory = new JButton("M");
 	public static JFrame f = new JFrame();
 	private static boolean inRand = false;
 	public static JFrame info = new JFrame();
-	private JPanel pinfo = new JPanel();
+	public static JFrame memFrame = new JFrame();
+	private static JPanel memPanel;
+	private JMenuItem memoryItem = new JMenuItem("Memory");
+
+	public static JFrame historyFrame = new JFrame();
+	private static JPanel historyPanel;
+	private JButton historyClose = createButton("Close", defaultColor, new Dimension(55, 35));
+	private static JLabel historyLabel = new JLabel();
+	private JMenuItem historyMenuItem = new JMenuItem("History");
+	private JMenuItem historyClear = new JMenuItem("Clear History");
+
+	private JButton memClose = createButton("Close", defaultColor, new Dimension(55, 35));
+	private static JLabel memLabel = new JLabel();
 	private static JLabel linfo = new JLabel();
 	private JLabel randMinL, randMaxL;
-	private JPanel p;
+	private JPanel p, pinfo;
 	private JButton plus = createButton("+", backgroundBlue, buttonSize);
 	private JButton log10 = new JButton("log10");
 	private JButton ln = new JButton("ln");
@@ -79,6 +95,7 @@ public class CalcFrame implements ActionListener {
 	private JButton neg = createButton("n", defaultColor, buttonSize);
 	private JButton fact = createButton("^", backgroundBlue, buttonSize);
 	// advanced
+
 	Border emptyBorder;
 	private JButton choose = new JButton("choose");
 	private JButton closeInfo = new JButton("Close");
@@ -86,11 +103,15 @@ public class CalcFrame implements ActionListener {
 	private JMenuBar mb = new JMenuBar();
 	private JMenu file = new JMenu("File");
 	private JMenu memoryMenu = new JMenu("Memory");
+	private JMenu historyMenu = new JMenu("History");
+	private JMenu viewMenu = new JMenu("Navigate");
+	private JMenu editMenu = new JMenu("Edit");
 	private JMenuItem close = new JMenuItem("Exit");
 	private JMenuItem infom = new JMenuItem("Info");
-	private JMenuItem clearMemory = new JMenuItem("MC");
-	private JMenuItem removeLastItem = new JMenuItem("M-");
+	private JMenuItem clearMemory = new JMenuItem("Clear Memory");
+	private JMenuItem removeLastItem = new JMenuItem("Remove Last Item");
 	private JMenuItem ctc = new JMenuItem("Copy answer");
+	private JMenuItem undo = new JMenuItem("Undo");
 	private static String op = "";
 	static BigDecimal number1 = new BigDecimal(0);
 	static BigDecimal number2 = new BigDecimal(0);
@@ -103,23 +124,36 @@ public class CalcFrame implements ActionListener {
 	private static String labelText;
 	private BigDecimal answer = new BigDecimal(0);
 
+	public static void main(String[] calcualtorArgs) {
+		new CalcFrame().run();
+	}
+
 	public void run() {
+
 		random();
 		info.setVisible(false);
+		memFrame.setVisible(false);
+		historyFrame.setVisible(false);
+		memFrame.setTitle("Memory");
+		historyFrame.setTitle("History");
+
 		setFonts();
 		emptyBorder = BorderFactory.createEmptyBorder();
+		pinfo = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 2));
 		p = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 2));
+		memPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+		historyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
 		p.setOpaque(false);
 		f.setTitle("Calculator");
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pinfo.add(linfo);
-		linfo.setText("This is a simple Java calculator. Use the 'Calculator' menu to switch between modes"
-				+ " and use the File menu to activate simple actions."
+		linfo.setText("<html>This is a simple Java calculator. Use the dropdown to switch between modes"
+				+ " and use the File menu to activate simple actions. The navigate menu allows you"
+				+ " to open the memory (where you can save answers manually by pressing the M+ button) and history."
 				+ " Buttons colored blue are operations. They take in two numbers,"
 				+ " Type 1 number, press the operation, and press another."
-				+ " Buttons colored whitish-blue alter 1 number." + " Have fun with the calculator!");
-
+				+ " Buttons colored whitish-blue alter 1 number." + " Have fun with the calculator!</html>");
 		info.setTitle("Info");
 		pinfo.add(closeInfo);
 		info.add(pinfo);
@@ -127,7 +161,9 @@ public class CalcFrame implements ActionListener {
 		// ops
 		clear.setPreferredSize(new Dimension(162, 65));
 		// advanced
-
+		linfo.setPreferredSize(new Dimension(600, 215));
+		pinfo.setAlignmentY(JPanel.CENTER_ALIGNMENT);
+		info.setPreferredSize(new Dimension(700, 215));
 		log10.setBackground(defaultColor);
 		ln.setBackground(defaultColor);
 		abs.setBackground(defaultColor);
@@ -146,13 +182,15 @@ public class CalcFrame implements ActionListener {
 		memory.setBorder(emptyBorder);
 		mplus.setBackground(numberColor);
 		memory.setBackground(numberColor);
+		historyPanel.add(historyLabel);
+		historyPanel.add(historyLabel);
 		// width: 235
 		mplus.setPreferredSize(new Dimension(53, 35));
 		memory.setPreferredSize(new Dimension(53, 35));
 		factorial.setPreferredSize(new Dimension(53, 35));
 		percent.setPreferredSize(new Dimension(52, 35));
 		sqrt.setPreferredSize(new Dimension(107, 35));
-		
+
 		e.setPreferredSize(new Dimension(buttonSize));
 		p.setOpaque(false);
 		mb.setOpaque(false);
@@ -165,18 +203,29 @@ public class CalcFrame implements ActionListener {
 		l.setHorizontalAlignment(SwingConstants.RIGHT);
 		dec.setPreferredSize(buttonSize);
 		// adding comps
-		file.add(ctc);
+
+		editMenu.add(ctc);
+		editMenu.add(undo);
 		file.add(infom);
 		file.add(close);
+		viewMenu.add(memoryMenu);
+		viewMenu.add(historyMenu);
 		memoryMenu.setBorder(emptyBorder);
 		memoryMenu.add(removeLastItem);
+		memoryMenu.add(memoryItem);
 		memoryMenu.add(clearMemory);
+		historyMenu.add(historyMenuItem);
+		historyMenu.add(historyClear);
+		historyFrame.add(historyPanel);
+		historyPanel.add(historyLabel);
+		historyPanel.add(historyClose);
 		mb.add(file);
-		mb.add(memoryMenu);
+		mb.add(editMenu);
+		mb.add(viewMenu);
 		p.add(dropdown);
 		p.add(mb);
 		p.add(l);
-		
+
 		p.add(sqrt);
 		p.add(factorial);
 		p.add(mplus);
@@ -224,13 +273,19 @@ public class CalcFrame implements ActionListener {
 		cubeRoot.addActionListener(this);
 		closeInfo.addActionListener(this);
 		ctc.addActionListener(this);
+		rollDice.addActionListener(this);
 		mplus.addActionListener(this);
 		memory.addActionListener(this);
 		memoryMenu.addActionListener(this);
 		clearMemory.addActionListener(this);
+		historyMenuItem.addActionListener(this);
+		historyClose.addActionListener(this);
+		historyClear.addActionListener(this);
 		removeLastItem.addActionListener(this);
+		memoryItem.addActionListener(this);
 		dropdown.addActionListener(this);
 		infom.addActionListener(this);
+		undo.addActionListener(this);
 		randGen.addActionListener(this);
 		clear.setBorder(emptyBorder);
 		e.setBorder(emptyBorder);
@@ -245,6 +300,11 @@ public class CalcFrame implements ActionListener {
 
 		// op
 		f.pack();
+
+		// memframe
+		memPanel.add(memLabel);
+		memPanel.add(memClose);
+		memFrame.add(memPanel);
 	}
 
 	@Override
@@ -275,9 +335,7 @@ public class CalcFrame implements ActionListener {
 		if (dropdown.getSelectedItem().toString().equals("Basic")) {
 			p.removeAll();
 			inRand = false;
-			clear.setPreferredSize(new Dimension(140, 35));
-			mplus.setPreferredSize(new Dimension(50, 35));
-			memory.setPreferredSize(new Dimension(50, 35));
+			clear.setPreferredSize(new Dimension(135, 35));
 			x.setPreferredSize(new Dimension(80, 35));
 			f.setPreferredSize(new Dimension(350, 430));
 			p.setLayout(new FlowLayout(FlowLayout.LEFT, 2, 2));
@@ -338,7 +396,7 @@ public class CalcFrame implements ActionListener {
 			p.add(percent);
 			p.add(clear);
 			p.add(fact);
-			
+
 			p.add(x);
 
 			p.add(b7);
@@ -414,13 +472,25 @@ public class CalcFrame implements ActionListener {
 			f.setPreferredSize(new Dimension(700, 80));
 			p.setLayout(new FlowLayout(FlowLayout.CENTER, 2, 2));
 			p.add(dropdown);
-			p.add(mb);
 			p.add(randMinL);
 			p.add(randomMin);
 			p.add(randMaxL);
 			p.add(randomMax);
 			p.add(randGen);
 			p.add(randSet);
+			p.add(rollDice);
+			f.pack();
+		}
+		if (ae.getSource() == rollDice) {
+			p.add(roll2Dice);
+			f.setPreferredSize(new Dimension(800, 600));
+			rollDiceS();
+			f.pack();
+		}
+		if (ae.getSource() == roll2Dice) {
+			p.add(roll2Dice);
+			f.setPreferredSize(new Dimension(1100, 600));
+			rollTwoDice();
 			f.pack();
 		}
 		if (ae.getSource() == b7) {
@@ -448,7 +518,7 @@ public class CalcFrame implements ActionListener {
 			answersList.clear();
 		}
 		if (ae.getSource() == removeLastItem) {
-			answersList.remove(answersList.size()-1);
+			answersList.remove(answersList.size() - 1);
 		}
 		if (ae.getSource() == b2) {
 			setn(2);
@@ -465,6 +535,12 @@ public class CalcFrame implements ActionListener {
 			decPressed = false;
 			decTimes = 0;
 
+		}
+
+		if (ae.getSource() == historyMenuItem) {
+			historyLabel.setText("History: " + history.toString());
+			historyFrame.setVisible(true);
+			historyFrame.pack();
 		}
 		if (ae.getSource() == choose) {
 			op = "c";
@@ -521,6 +597,35 @@ public class CalcFrame implements ActionListener {
 			f.pack();
 
 		}
+		if (ae.getSource() == undo) {
+			if (opPressed == false) {
+				String number = number1.toString();
+				number = number.substring(0, number.length() - 1);
+				number1 = new BigDecimal(number);
+				labelText = "" + number1;
+				l.setText(labelText);
+				f.pack();
+			}
+			if (opPressed == true) {
+				if (number2.doubleValue() == 0) {
+					opPressed = false;
+				} else {
+					String number = number2.toString();
+					number = number.substring(0, number.length() - 1);
+					number2 = new BigDecimal(number);
+					labelText = "" + number2;
+					l.setText(labelText);
+					f.pack();
+				}
+			}
+		}
+		if (ae.getSource() == historyClose) {
+			historyFrame.dispose();
+			historyFrame.setVisible(false);
+		}
+		if (ae.getSource() == historyClear) {
+			history.clear();
+		}
 		if (ae.getSource() == factorial) {
 			if (opPressed == false) {
 				double n1 = number1.doubleValue();
@@ -570,12 +675,24 @@ public class CalcFrame implements ActionListener {
 			f.pack();
 		}
 		if (ae.getSource() == mplus) {
-			answersList.add(answer);
+			double dy1 = answer.doubleValue();
+			dy1*=1000000;
+			dy1 = Math.round(dy1);
+			dy1/=1000000;
+			answer = new BigDecimal(dy1);
+			answersList.add(dy1);
 		}
-		if (ae.getSource() == memory) {
-			labelText = "Memory: " + answersList.toString();
-			l.setText(labelText);
-			f.pack();
+		if (ae.getSource() == memory || ae.getSource() == memoryItem) {
+			memLabel.setText("Memory: " + answersList.toString());
+			memFrame.setVisible(true);
+			memFrame.pack();
+		}
+		if (ae.getSource() == memClose) {
+			memFrame.dispose();
+			memFrame.setVisible(false);
+		}
+		if (ae.getSource() == memClose) {
+
 		}
 		if (ae.getSource() == fact) {
 			op = "^";
@@ -632,10 +749,15 @@ public class CalcFrame implements ActionListener {
 			if (op.equals("/")) {
 				double n1 = number1.doubleValue();
 				double n2 = number2.doubleValue();
-				double an = n1 / n2;
+				double an;
 				if (n2 == 0) {
+					an = 0;
 					labelText = "Undefined";
 				} else {
+					an = n1 / n2;
+					an*=1000000;
+					an = Math.round(an);
+					an/=1000000;
 					labelText = "" + an;
 				}
 				answer = new BigDecimal(an);
@@ -679,6 +801,12 @@ public class CalcFrame implements ActionListener {
 				labelText = "" + an;
 				answer = new BigDecimal(an);
 			}
+			double dy1 = answer.doubleValue();
+			dy1*=1000000;
+			dy1 = Math.round(dy1);
+			dy1/=1000000;
+			history.add(dy1);
+			historyLabel.setText("History: " + history.toString());
 			number1 = answer;
 			number2 = new BigDecimal(0);
 			opPressed = false;
@@ -699,16 +827,6 @@ public class CalcFrame implements ActionListener {
 			decTimes = 0;
 
 		}
-	}
-
-	private static double factorial(double a) {
-		double runner = a;
-		double forRunner = a - 1;
-		for (long j = 0; j < forRunner - 1; j++) {
-			runner -= 1;
-			a *= runner;
-		}
-		return a;
 	}
 
 	private static void setn(double te) {
@@ -768,7 +886,8 @@ public class CalcFrame implements ActionListener {
 	}
 
 	private void setFonts() {
-		linfo.setFont(new Font("Consolas", Font.PLAIN, 13));
+
+		linfo.setFont(new Font("Consolas", Font.PLAIN, 16));
 		l.setFont(new Font("Consolas", Font.PLAIN, 16));
 		clear.setFont(new Font("Consolas", Font.PLAIN, 16));
 		choose.setFont(new Font("Consolas", Font.PLAIN, 14));
@@ -778,19 +897,30 @@ public class CalcFrame implements ActionListener {
 		log10.setFont(new Font("Consolas", Font.PLAIN, 14));
 		ln.setFont(new Font("Consolas", Font.PLAIN, 14));
 		cubeRoot.setFont(new Font("Consolas", Font.PLAIN, 14));
+		memClose.setFont(new Font("Consolas", Font.PLAIN, 13));
 		mplus.setFont(new Font("Consolas", Font.PLAIN, 14));
 		memory.setFont(new Font("Consolas", Font.PLAIN, 14));
 		abs.setFont(new Font("Consolas", Font.PLAIN, 14));
 		mb.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		close.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		historyMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		closeInfo.setFont(new Font("Consolas", Font.PLAIN, 14));
+		memoryItem.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		ctc.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		infom.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		file.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		memoryMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		historyMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		historyClear.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		historyLabel.setFont(new Font("Consolas", Font.PLAIN, 14));
+		historyClose.setFont(new Font("Consolas", Font.PLAIN, 13));
 		clearMemory.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		removeLastItem.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		viewMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		undo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		memLabel.setFont(new Font("Consolas", Font.PLAIN, 14));
 		dropdown.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		editMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		dropdown.setUI(new BasicComboBoxUI());
 		dropdown.setOpaque(false);
 	}
@@ -814,20 +944,34 @@ public class CalcFrame implements ActionListener {
 		randomMax.setBorder(emptyBorder);
 		randGen.setBorder(emptyBorder);
 		randSet.setBorder(emptyBorder);
+		rollDice.setBorder(emptyBorder);
+		rollDice.setBackground(defaultColor);
 		randSet.setBackground(defaultColor);
 		randomMin.setPreferredSize(new Dimension(100, 20));
 		randomMax.setPreferredSize(new Dimension(100, 20));
+		rollDice.setPreferredSize(new Dimension(100, 40));
 		randGen.setPreferredSize(new Dimension(100, 40));
 		randSet.setPreferredSize(new Dimension(100, 40));
 		randomMin.setFont(new Font("Consolas", Font.PLAIN, 14));
 		randomMax.setFont(new Font("Consolas", Font.PLAIN, 14));
 		randGen.setFont(new Font("Consolas", Font.PLAIN, 14));
 		randSet.setFont(new Font("Consolas", Font.PLAIN, 14));
+		rollDice.setFont(new Font("Consolas", Font.PLAIN, 14));
 		randGen.setBackground(defaultColor);
 		randMinL = new JLabel(" Min");
 		randMaxL = new JLabel(" Max");
 		randMinL.setFont(new Font("Consolas", Font.PLAIN, 14));
 		randMaxL.setFont(new Font("Consolas", Font.PLAIN, 14));
+	}
+
+	private static double factorial(double a) {
+		double runner = a;
+		double forRunner = a - 1;
+		for (long j = 0; j < forRunner - 1; j++) {
+			runner -= 1;
+			a *= runner;
+		}
+		return a;
 	}
 
 	private void generateRand() {
@@ -837,5 +981,59 @@ public class CalcFrame implements ActionListener {
 		int rsan = r.nextInt(max - min + 1) + min;
 		randGen.setText("" + rsan);
 		f.pack();
+	}
+
+	private void rollTwoDice() {
+		Random r = new Random();
+		int rsan = r.nextInt(6 - 1 + 1) + 1;
+		p.add(roll2Dice);
+		if (rsan == 6) {
+			new Voids().Image(p, "dice-six-faces-six.png");
+			rollDiceS();
+		}
+		if (rsan == 5) {
+			new Voids().Image(p, "dice-six-faces-five.png");
+			rollDiceS();
+		}
+		if (rsan == 4) {
+			new Voids().Image(p, "dice-six-faces-four.png");
+			rollDiceS();
+		}
+		if (rsan == 3) {
+			new Voids().Image(p, "dice-six-faces-three.png");
+			rollDiceS();
+		}
+		if (rsan == 2) {
+			new Voids().Image(p, "dice-six-faces-two.png");
+			rollDiceS();
+		}
+		if (rsan == 1) {
+			new Voids().Image(p, "dice-six-faces-one.png");
+			rollDiceS();
+		}
+		f.pack();
+	}
+
+	private void rollDiceS() {
+		Random r = new Random();
+		int rsan = r.nextInt(6 - 1 + 1) + 1;
+		if (rsan == 6) {
+			new Voids().Image(p, "dice-six-faces-six.png");
+		}
+		if (rsan == 5) {
+			new Voids().Image(p, "dice-six-faces-five.png");
+		}
+		if (rsan == 4) {
+			new Voids().Image(p, "dice-six-faces-four.png");
+		}
+		if (rsan == 3) {
+			new Voids().Image(p, "dice-six-faces-three.png");
+		}
+		if (rsan == 2) {
+			new Voids().Image(p, "dice-six-faces-two.png");
+		}
+		if (rsan == 1) {
+			new Voids().Image(p, "dice-six-faces-one.png");
+		}
 	}
 }
