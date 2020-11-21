@@ -31,4 +31,8 @@ public class NumberOp {
 		}
 		return toReturn;
 	}
+	 public static void main(String[] args) {
+			NumberOp n = new NumberOp();
+			System.out.println(n.factorial(4));
+		}
 }

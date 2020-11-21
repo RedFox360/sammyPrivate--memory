@@ -1,4 +1,4 @@
-package calcJFrame;
+package _00_calcJFrame;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -153,7 +153,8 @@ public class CalcFrame implements ActionListener {
 				+ " to open the memory (where you can save answers manually by pressing the M+ button) and history."
 				+ " Buttons colored blue are operations. They take in two numbers,"
 				+ " Type 1 number, press the operation, and press another."
-				+ " Buttons colored whitish-blue alter 1 number." + " Have fun with the calculator!</html>");
+				+ " Buttons colored whitish-blue alter 1 number." + " Have fun with the calculator!"
+						+ "<br> Developed by Sameer Prakash 2020</html>");
 		info.setTitle("Info");
 		pinfo.add(closeInfo);
 		info.add(pinfo);
@@ -163,7 +164,7 @@ public class CalcFrame implements ActionListener {
 		// advanced
 		linfo.setPreferredSize(new Dimension(600, 215));
 		pinfo.setAlignmentY(JPanel.CENTER_ALIGNMENT);
-		info.setPreferredSize(new Dimension(700, 215));
+		info.setPreferredSize(new Dimension(700, 300));
 		log10.setBackground(defaultColor);
 		ln.setBackground(defaultColor);
 		abs.setBackground(defaultColor);

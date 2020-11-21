@@ -1,4 +1,4 @@
-package calcJFrame;
+package _00_calcJFrame;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -25,6 +25,18 @@ public class Voids {
 	}
 
 	public void Image(JPanel frame, String file) {
+		ImageIcon f = createImageIcon(file, "Dice Roll");
+		JLabel label1 = new JLabel("", f, JLabel.CENTER);
+		frame.setVisible(true);
+		frame.add(label1);
+	}
+	public void ImagePanel(JPanel p, JFrame f, String file) {
+		ImageIcon fc = createImageIcon(file, "");
+		JLabel label1 = new JLabel("", fc, JLabel.CENTER);
+		f.setVisible(true);
+		f.add(label1);
+	}
+	public void ImageFrame(JFrame frame, String file) {
 		ImageIcon f = createImageIcon(file, "Dice Roll");
 		JLabel label1 = new JLabel("", f, JLabel.CENTER);
 		frame.setVisible(true);
