@@ -12,12 +12,15 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop.Action;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
@@ -32,7 +35,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 @SuppressWarnings("unused")
-public class CalcFrame implements ActionListener {
+public class CalcFrame implements ActionListener, KeyListener {
 	ArrayList<Double> answersList = new ArrayList<Double>();
 	ArrayList<Double> history = new ArrayList<Double>();
 	private static Dimension buttonSize = new Dimension(80, 65);
@@ -92,7 +95,7 @@ public class CalcFrame implements ActionListener {
 	private JButton b3 = createButton("3", numberColor, buttonSize);
 	private JButton b0 = createButton("0", numberColor, buttonSize);
 	private JButton dec = createButton(".", defaultColor, buttonSize);
-	private JButton neg = createButton("n", defaultColor, buttonSize);
+	private JButton neg = createButton("+/-", defaultColor, buttonSize);
 	private JButton fact = createButton("^", backgroundBlue, buttonSize);
 	// advanced
 
@@ -154,7 +157,7 @@ public class CalcFrame implements ActionListener {
 				+ " Buttons colored blue are operations. They take in two numbers,"
 				+ " Type 1 number, press the operation, and press another."
 				+ " Buttons colored whitish-blue alter 1 number." + " Have fun with the calculator!"
-						+ "<br> Developed by Sameer Prakash 2020</html>");
+				+ "<br> Developed by Sameer Prakash 2020</html>");
 		info.setTitle("Info");
 		pinfo.add(closeInfo);
 		info.add(pinfo);
@@ -200,7 +203,7 @@ public class CalcFrame implements ActionListener {
 		choose.setBackground(backgroundBlue);
 		cubeRoot.setBackground(defaultColor);
 		f.setPreferredSize(new Dimension(350, 500));
-		l.setPreferredSize(new Dimension(300, 55));
+		l.setPreferredSize(new Dimension(325, 55));
 		l.setHorizontalAlignment(SwingConstants.RIGHT);
 		dec.setPreferredSize(buttonSize);
 		// adding comps
@@ -260,6 +263,7 @@ public class CalcFrame implements ActionListener {
 		f.add(p);
 		// adding menu
 		// adding actionlisteners
+		f.addKeyListener(this);
 		clear.addActionListener(this);
 		e.addActionListener(this);
 		log10.addActionListener(this);
@@ -677,9 +681,9 @@ public class CalcFrame implements ActionListener {
 		}
 		if (ae.getSource() == mplus) {
 			double dy1 = answer.doubleValue();
-			dy1*=1000000;
+			dy1 *= 1000000;
 			dy1 = Math.round(dy1);
-			dy1/=1000000;
+			dy1 /= 1000000;
 			answer = new BigDecimal(dy1);
 			answersList.add(dy1);
 		}
@@ -756,9 +760,9 @@ public class CalcFrame implements ActionListener {
 					labelText = "Undefined";
 				} else {
 					an = n1 / n2;
-					an*=1000000;
+					an *= 1000000;
 					an = Math.round(an);
-					an/=1000000;
+					an /= 1000000;
 					labelText = "" + an;
 				}
 				answer = new BigDecimal(an);
@@ -803,9 +807,9 @@ public class CalcFrame implements ActionListener {
 				answer = new BigDecimal(an);
 			}
 			double dy1 = answer.doubleValue();
-			dy1*=1000000;
+			dy1 *= 1000000;
 			dy1 = Math.round(dy1);
-			dy1/=1000000;
+			dy1 /= 1000000;
 			history.add(dy1);
 			historyLabel.setText("History: " + history.toString());
 			number1 = answer;
@@ -1036,5 +1040,195 @@ public class CalcFrame implements ActionListener {
 		if (rsan == 1) {
 			new Voids().Image(p, "dice-six-faces-one.png");
 		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	boolean shiftPressed = false;
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		boolean continueB = true;
+		if (e.getKeyChar() == '1') {
+			setn(1);
+		}
+		if (e.getKeyChar() == '2') {
+			setn(2);
+		}
+		if (e.getKeyChar() == '3') {
+			setn(3);
+		}
+		if (e.getKeyChar() == '4') {
+			setn(4);
+		}
+		if (e.getKeyChar() == '5') {
+			if (shiftPressed == true) {
+				op = "%";
+				opPressed = true;
+				decPressed = false;
+				decTimes = 0;
+				shiftPressed = false;
+				continueB = false;
+			} else if (shiftPressed == false && continueB == true) {
+				setn(5);
+			}
+		}
+		if (e.getKeyChar() == KeyEvent.VK_MINUS) {
+			op = "-";
+			opPressed = true;
+			decPressed = false;
+			decTimes = 0;
+			shiftPressed = false;
+		}
+		if (e.getKeyChar() == '6') {
+			if (shiftPressed == true) {
+				op = "^";
+				opPressed = true;
+				decPressed = false;
+				decTimes = 0;
+				shiftPressed = false;
+				continueB = false;
+			} else if (shiftPressed == false && continueB == true) {
+				setn(6);
+			}
+		}
+		if (e.getKeyChar() == '7') {
+			setn(7);
+		}
+	
+		if (e.getKeyChar() == '8') {
+			if (shiftPressed == true) {
+				op = "x";
+				opPressed = true;
+				decPressed = false;
+				decTimes = 0;
+				shiftPressed = false;
+				continueB = false;
+			} else if (shiftPressed == false && continueB == true) {
+				setn(8);
+			}
+		}
+		if (e.getKeyChar() == '9') {
+			setn(9);
+		}
+		if (e.getKeyChar() == '0') {
+			setn(0);
+		}
+		if (e.getKeyChar() == 'c') {
+			number1 = new BigDecimal(0);
+			number2 = new BigDecimal(0);
+			labelText = "";
+			l.setText(labelText);
+			opPressed = false;
+			decPressed = false;
+			f.pack();
+			decTimes = 0;
+		}
+		if (e.getKeyChar() == '/') {
+			op = "/";
+			opPressed = true;
+			decPressed = false;
+			decTimes = 0;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+			shiftPressed = true;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_EQUALS) {
+			if (shiftPressed == true) {
+				op = "+";
+				opPressed = true;
+				decPressed = false;
+				decTimes = 0;
+				shiftPressed = false;
+				continueB = false;
+			} else if (shiftPressed == false && continueB == true) {
+				MathContext m = new MathContext(6);
+				if (op.equals("x")) {
+					answer = number1.multiply(number2);
+					answer = answer.round(m);
+					labelText = "" + answer;
+				}
+				if (op.equals("/")) {
+					double n1 = number1.doubleValue();
+					double n2 = number2.doubleValue();
+					double an;
+					if (n2 == 0) {
+						an = 0;
+						labelText = "Undefined";
+					} else {
+						an = n1 / n2;
+						an *= 1000000;
+						an = Math.round(an);
+						an /= 1000000;
+						labelText = "" + an;
+					}
+					answer = new BigDecimal(an);
+				}
+				if (op.equals("+")) {
+					answer = number1.add(number2);
+					answer = answer.round(m);
+					labelText = "" + answer;
+				}
+				if (op.equals("-")) {
+					answer = number1.subtract(number2);
+					answer = answer.round(m);
+					labelText = "" + answer;
+				}
+				if (op.equals("^")) {
+					double d1 = number1.doubleValue();
+					double d2 = number2.doubleValue();
+					double an = Math.pow(d1, d2);
+					answer = new BigDecimal(an);
+					answer = answer.round(m);
+					labelText = "" + answer;
+					answer = new BigDecimal(an);
+				}
+				if (op.equals("%")) {
+					double d1 = number1.doubleValue();
+					double d2 = number2.doubleValue();
+					double mul = d1 / 100;
+					double an = d2 * mul;
+					labelText = "" + an;
+					answer = new BigDecimal(an);
+				}
+				if (op.equals("c")) {
+					double n = number1.doubleValue();
+					double k = number2.doubleValue();
+					double factorialn = factorial(n);
+					double factorialk = factorial(k);
+					double factorialnmk = factorial(n - k);
+
+					double an = (factorialn) / ((factorialk) * (factorialnmk));
+					an = Math.round(an);
+					labelText = "" + an;
+					answer = new BigDecimal(an);
+				}
+				double dy1 = answer.doubleValue();
+				dy1 *= 1000000;
+				dy1 = Math.round(dy1);
+				dy1 /= 1000000;
+				history.add(dy1);
+				historyLabel.setText("History: " + history.toString());
+				number1 = answer;
+				number2 = new BigDecimal(0);
+				opPressed = false;
+				decPressed = false;
+				decTimes = 0;
+				l.setText(labelText);
+				f.pack();
+			}
+		}
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 }
