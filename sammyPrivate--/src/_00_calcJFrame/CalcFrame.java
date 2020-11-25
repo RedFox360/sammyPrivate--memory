@@ -1100,7 +1100,7 @@ public class CalcFrame implements ActionListener, KeyListener {
 		if (e.getKeyChar() == '7') {
 			setn(7);
 		}
-	
+
 		if (e.getKeyChar() == '8') {
 			if (shiftPressed == true) {
 				op = "x";
@@ -1223,12 +1223,25 @@ public class CalcFrame implements ActionListener, KeyListener {
 				f.pack();
 			}
 		}
-
+		if (e.getKeyCode() == KeyEvent.VK_PERIOD) {
+			decPressed = true;
+		}
+		if (e.getKeyChar() == 'n') {
+			if (opPressed == false) {
+				number1 = new BigDecimal(0).subtract(number1);
+				labelText = "" + number1;
+			}
+			if (opPressed == true) {
+				number2 = new BigDecimal(0).subtract(number2);
+				labelText = "" + number2;
+			}
+			l.setText(labelText);
+			f.pack();
+		}
 	}
-
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-
 	}
+
 }
